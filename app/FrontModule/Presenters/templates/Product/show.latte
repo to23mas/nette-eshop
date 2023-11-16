@@ -1,0 +1,126 @@
+{varType App\Model\Entities\Product $product}
+{block content}
+
+<style>
+    h3, h2, h6{
+        text-align: center;
+    }
+    img{
+        width: 400px;
+    }
+    .card {
+        margin-bottom: 30px;
+    }
+    .card-main {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid transparent;
+        border-radius: 0;
+    }
+    .card .card-subtitle {
+        font-weight: 300;
+        margin-bottom: 10px;
+        color: #8898aa;
+    }
+    .table-product.table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f3f8fa!important
+    }
+    .table-product td{
+        border-top: 0px solid #dee2e6 !important;
+        color: #728299!important;
+    }
+    .koment{
+        text-align: left;
+    }
+</style>
+
+<div class="container">
+    <div class="card-main">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-6">
+                    <div class="white-box text-center"><img src="{$basePath}/img/products/{$product->productId}.{$product->photoExtension}"></div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6">
+                    <h3>{$product->title}</h3>
+                    <h6 class="card-subtitle" style="padding: 10px 0px;"> -{$product->category->title} bota -</h6>
+                    <p> {$product->description}</p>
+                    <h2 class="mt-2">
+                        {$product->price},-</small>
+                    </h2>
+                    {var $pocetKusu = ($product->thirtyeight+$product->thirtynine+$product->forty+$product->fortyone+$product->fortytwo+$product->fortythree+$product->fortyfour+$product->fortyfive)}
+                    {if $pocetKusu != 0}
+                        {control "productCartForm-$product->productId"}
+                    {else}
+                        <button type="button" class="btn btn-warning btn-lg btn-block">Litujeme, ale bota momentálně není skladem</button>
+                    {/if}
+                    </h2>
+                    <hr>
+                    <h3 class="box-title mt-5">Podrobnosti o botě</h3>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-product">
+                            <tbody>
+                            <tr>
+                                <td width="390">Značka</td>
+                                <td>{$product->brand}</td>
+                            </tr>
+                            <tr>
+                                <td>Barva bot</td>
+                                <td>{$product->color}</td>
+                            </tr>
+                            <tr>
+                                <td>Střih</td>
+                                <td>{$product->cut}</td>
+                            </tr>
+                            <tr>
+                                <td>Model číslo</td>
+                                <td>{$product->model}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-65" style="margin:auto;">
+    <hr>
+    <h4 style="padding: 20px 0px;" class="text-center">Naši zákazníci o botě napsali</h4>
+    {foreach $product->comments as $comment}
+    <div class="card">
+        <div class="card-body">
+            <span><b>{$comment->name}</b> dne {$comment->created|date:'%d.%m.%Y '} napsal:</span>
+            <p style="font-size: 1.5em;">{$comment->content}</p>
+        </div>
+    </div>
+    {/foreach}
+</div>
+
+{if $logged}
+
+    <form n:name=commentForm class="form-inline p-3 mb-5 bg-light" style="border: 1px solid #dee2e6 !important;">
+        <h4>Přidejte komentář:</h4>
+        <div class="form-group mb-2">
+            <label n:name=content><input n:name=content size=90></label>
+        </div>
+        <input n:name=send class="btn btn-primary mb-2">
+    </form>
+{else}
+
+    <h3 class="mb-5">Nový komentář mohou přidávat pouze přihlášení uživatelé</h3>
+
+{/if}
+
+
+
+
+
+
+

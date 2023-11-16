@@ -1,0 +1,43 @@
+{varType App\Model\Entities\Cart $cart}
+
+<div n:snippet="list" data-naja-snippet-cache="off">
+
+    <h1>Váš košík</div>
+    {if empty($cart->items)}
+    Váš košík je zatím prázdný, pojďte si něco vybrat!
+
+{else}
+    <table class="table table-hover">
+        <tr>
+            <th>Název produktu</th>
+            <th>Počet kusů</th>
+            <th>Velikost</th>
+            <th>Cena</th>
+        </tr>
+        {foreach $cart->items as $item}
+
+            <tr>
+                <td>{$item->product->title}</td>
+                <td>{$item->count}</td>
+                <td>{$item->size}</td>
+                <td>{$item->product->price} Kč</td>
+                <td>
+                    <a href="{link remove! $item->cartItemId}" class="ajax">odebrat</a>
+                </td>
+            </tr>
+        {/foreach}
+        <tr>
+            <th>Cena celkem</th>
+            <td></td>
+            <td></td>
+            <th>{$cart->getTotalPrice()} Kč</th>
+        </tr>
+
+    </table>
+
+
+        {if !$user->isLoggedIn()}<a href="{plink :Front:User:login }"><button class="btn btn-primary mb-2 type="submit">Pro vytvoření závazné objednávky je třeba se přihlásit!</button></a>
+    {else}<a href="{plink :Front:Cart:nahled }"><button class="btn btn-primary mb-2 type="submit">Vytvořit závaznou objednávku</button></a>{/if}
+{/if}
+
+</div>

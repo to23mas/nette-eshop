@@ -1,0 +1,34 @@
+{varType App\Model\Entities\Comments[] $comments}
+{block content}
+
+    <h1 n:block="title">Správa komentářů</h1>
+    {if !empty($comments)}
+        <table class="table table-hover mt-4">
+            <thead>
+                <tr class="row">
+                    <th scope="col" class="col-md-3">Produkt</th>
+                    <th scope="col" class="col-md-6">Text</th>
+                    <th scope="col" class="col-md-3">Akce</th>
+                </tr>
+            </thead>
+            <tbody>
+            {var $numberOfMyComments = 0;}
+                {foreach $comments as $comment}
+                    {if $comment->name==$user->identity->name}
+                    <tr class="row">
+                        <td class="col-md-3"><a href="{$basePath}/produkty/{$comment->product->url}">{$comment->product->title}</a></td>
+                        <td class="col-md-6">{$comment->content}</td>
+                        <td class="col-md-3">
+                           <a href="{link delete id=>$comment->commentsId}" class="btn btn-sm btn-outline-danger ">smazat</a>
+                        </td>
+                    </tr>
+                    {var $numberOfMyComments = $numberOfMyComments + 1}
+                    {/if}
+                {/foreach}
+            </tbody>
+        </table>
+
+        {if $numberOfMyComments == 0}<p class="text-muted">Ještě jsi nenapsal žádný komentář!</p>{/if}
+    {else}
+        <p class="text-muted">Nebyly nalezeny žádné komentáře</p>
+    {/if}

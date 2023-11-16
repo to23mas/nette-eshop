@@ -1,0 +1,74 @@
+{varType App\Model\Entities\Product[] $products}
+{varType App\Model\Entities\Category[] $categories}
+{varType App\Model\Entities\Category[]|null $activeCategories}
+{varType Nette\Utils\Paginator $paginator}
+
+{block content}
+{block script}
+ <link rel="stylesheet"  href="{$basePath}/styly/">
+{/block script}
+
+        <h1 n:block="title" style=" text-align: center">Nabízené produkty</h1>
+           <ul class="nav nav-pills nav-fill mt-4 mb-2">
+               <li class="nav-item">
+                  <a class="nav-link {if !$activeCategory}active{/if}" href="{plink list category=>null,page=>1}">Všechny kategorie</a>
+               </li>
+            {foreach $categories as $category}
+               <li class="nav-item {if $activeCategory && ($category->categoryId==$activeCategory->categoryId)}active{/if}">
+                  <a class="nav-link {if $activeCategory && ($category->categoryId==$activeCategory->categoryId)}active{/if}" href="{plink list category=>$category->categoryId,page=>1}">{$category->title}</a>
+               </li>
+            {/foreach}
+            </ul>
+<hr>
+
+
+        <div class="container">
+            <div class="row">
+            {foreach $products as $product}
+                {if $product->available == 1}
+                <a href="{plink Product:show url=>$product->url, page=>1}" class="h4">
+                <div class="m-3">
+                    <div class="card text-center" style="width: 15.1rem; height: 30rem;">
+                        <img src="{$basePath}/img/products/{$product->productId}.{$product->photoExtension}" class="card-img-top" style="height: 220px;"">
+                        <div class="card-body">
+                            <h4>{$product->title}</h4>
+                            <p class="item-price">{$product->price}Kč</p>
+                            {var $pocetKusu = ($product->thirtyeight+$product->thirtynine+$product->forty+$product->fortyone+$product->fortytwo+$product->fortythree+$product->fortyfour+$product->fortyfive)}
+                            <p  {if $pocetKusu<=0}class="text-danger"{/if}>{if $pocetKusu<=0}Produkt není dostupný{/if}{if $pocetKusu>0}Poček kusů: {$pocetKusu}{/if}</p>
+                            {if $pocetKusu>0}<a href="{plink Product:show url=>$product->url, page=>1}" class="btn btn-primary">Přejít na detail</a>{/if}
+                        </div>
+                    </div>
+                </div>
+                </a>
+                {/if}
+            {/foreach}
+            </div>
+        </div>
+
+
+            {if $paginator->pageCount>1}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-2">
+                {for $i=1;$i<=$paginator->pageCount;$i++}
+                    <li class="page-item {if $paginator->page == $i}active{/if}">
+                        <a class="page-link" href="{plink this page=>$i}">{$i}</a>
+                    </li>
+                {/for}
+                </ul>
+            </nav>
+            {/if}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

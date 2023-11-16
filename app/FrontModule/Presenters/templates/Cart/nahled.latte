@@ -1,0 +1,29 @@
+{block content}
+
+<table class="table table-hover">
+    <tr>
+        <th>Název produktu</th>
+        <th>Počet kusů</th>
+        <th>Velikost</th>
+        <th>Cena</th>
+    </tr>
+    {foreach $cart->items as $item}
+
+        <tr>
+            <td>{$item->product->title}</td>
+            <td>{$item->count}</td>
+            <td>{$item->size}</td>
+            <td>{$item->product->price} Kč</td>
+        </tr>
+    {/foreach}
+    <tr>
+        <th>Cena celkem</th>
+        <td></td>
+        <td></td>
+        <th>{$cart->getTotalPrice()} Kč</th>
+    </tr>
+
+</table>
+{control objednavkaForm}
+
+

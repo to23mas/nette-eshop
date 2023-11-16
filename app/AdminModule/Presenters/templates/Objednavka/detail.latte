@@ -1,0 +1,33 @@
+{block content}
+
+<h2 class="mt-2">Objednávka č. {$objednavka->objednavkaId}</h2>
+<p>
+    <strong>Objednavatel:</strong> {$objednavka->jmeno} ({$objednavka->email})<br>
+    <strong>Zpráva od zákazníka:</strong> {$objednavka->zprava}<br>
+    <strong>Stav:</strong> {$objednavka->stav}
+</p>
+<table class="table table-hover mt-2">
+    <tr>
+        <th>Jméno produktu</th>
+        <th>cena</th>
+        <th>počet kusů</th>
+        <th>velikost</th>
+    </tr>
+    {foreach $objednavka->cartItems as $cartItem}
+
+        <tr>
+            <td>{$cartItem->product->title}</td>
+            <td>{$cartItem->product->price}</td>
+            <td>{$cartItem->count}</td>
+            <th>{$cartItem->size}</th>
+        </tr>
+
+    {/foreach}
+
+</table>
+
+<ul>
+    {if $objednavka->stav != "odesláno"}<li><a href="{plink odeslat! $objednavka->objednavkaId}">Změnit stav objednávky na odesláno</a></li>{/if}
+    {if $objednavka->stav != "zrušeno"}<li><a href="{plink zrusit! $objednavka->objednavkaId}">Změnit stav objednávky na zrušeno</a></li>{/if}
+    {if $objednavka->stav != "přijato"}<li><a href="{plink prijato! $objednavka->objednavkaId}">Změnit stav objednávky na přijato</a></li>{/if}
+<ul>

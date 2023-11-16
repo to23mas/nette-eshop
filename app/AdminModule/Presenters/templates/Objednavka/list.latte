@@ -1,0 +1,39 @@
+{varType App\Model\Entities\Objednavka[] $objednavka}
+{block content}
+
+<h1 n:block="title">Správa objednávek</h1>
+{if !empty($objednavka)}
+    <table class="table table-hover mt-4">
+        <thead>
+        <tr class="row">
+            <th scope="col" class="col-md-1">ID objednavky</th>
+            <th scope="col" class="col-md-1">Stav</th>
+            <th scope="col" class="col-md-2">Jméno</th>
+            <th scope="col" class="col-md-2">Email</th>
+            <th scope="col" class="col-md-2">Zpráva od uživatele</th>
+            <th scope="col" class="col-md-2">Cena</th>
+            <th scope="col" class="col-md-2">Akce</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $objednavka as $obj}
+            {if $obj->jmeno != "PlaceHolderObjednavka"}
+            <tr class="row">
+                <td class="col-md-1">{$obj->objednavkaId}</td>
+                <td class="col-md-1">{$obj->stav}</td>
+                <td class="col-md-2">{$obj->jmeno}</td>
+                <td class="col-md-2">{$obj->email}</td>
+                <td class="col-md-2">{$obj->zprava}</td>
+                <td class="col-md-2">{$obj->cena}</td>
+                <td class="col-md-2">
+                    <a href="{plink detail $obj->objednavkaId }" class="btn btn-sm btn-outline-danger">detail</a>
+                </td>
+            </tr>
+            {/if}
+        {/foreach}
+        </tbody>
+    </table>
+
+{else}
+    <p class="text-muted">Nebyly nalezeny žádní uživatelé</p>
+{/if}
