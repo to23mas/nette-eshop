@@ -25,19 +25,10 @@ services:
 
 	- App\Model\Api\Facebook\FacebookApi(%facebook.appId%, %facebook.secret%)
 
-	- App\AdminModule\Components\CategoryEditForm\CategoryEditFormFactory
-	- App\AdminModule\Components\ProductEditForm\ProductEditFormFactory
-
-	- App\FrontModule\Components\UserLoginForm\UserLoginFormFactory
-	- App\FrontModule\Components\UserRegistrationForm\UserRegistrationFormFactory
 	forgottenPasswordFormFactory:
 	    implement: App\FrontModule\Components\ForgottenPasswordForm\ForgottenPasswordFormFactory
 	    setup:
 	        - setMailFrom(%mailFrom.email%,%mailFrom.name%)
-	- App\FrontModule\Components\NewPasswordForm\NewPasswordFormFactory
-	- App\FrontModule\Components\ProductCartForm\ProductCartFormFactory
-	- App\FrontModule\Components\CartControl\CartControlFactory
-	- App\FrontModule\Components\UserLoginControl\UserLoginControlFactory
 
 	- App\Model\Facades\CategoriesFacade
 	- App\Model\Facades\ProductsFacade
@@ -53,3 +44,6 @@ services:
 	- App\Model\Repositories\UserRepository
 	- App\Model\Repositories\CartRepository
 	- App\Model\Repositories\CartItemRepository
+
+includes:
+	- ui.neon
