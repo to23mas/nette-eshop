@@ -1,0 +1,11 @@
+services:
+	- App\AdminModule\Components\CategoryEditForm\CategoryEditFormFactory
+	- App\AdminModule\Components\ProductEditForm\ProductEditFormFactory
+	- App\AdminModule\Components\SideBar\SideBarFactory
+
+	- App\FrontModule\Components\UserLoginForm\UserLoginFormFactory
+	- App\FrontModule\Components\UserRegistrationForm\UserRegistrationFormFactory
+	- App\FrontModule\Components\NewPasswordForm\NewPasswordFormFactory
+	- App\FrontModule\Components\ProductCartForm\ProductCartFormFactory
+	- App\FrontModule\Components\CartControl\CartControlFactory
+	- App\FrontModule\Components\UserLoginControl\UserLoginControlFactory
