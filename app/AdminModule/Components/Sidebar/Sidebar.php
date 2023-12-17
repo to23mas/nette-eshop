@@ -32,8 +32,8 @@ final class Sidebar extends Control
 		],
 		'Users' => [
 			'icon' => 'fa fa-users',
-			'link' => '',
-			'presenter' => 'i',
+			'link' => 'Users:default',
+			'presenter' => 'Users:*',
 		],
 	];
 

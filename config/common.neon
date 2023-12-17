@@ -34,6 +34,7 @@ services:
 	- App\Model\Facades\ProductsFacade
 	- App\Model\Facades\UsersFacade
 	- App\Model\Facades\CartFacade
+	- App\Model\Facades\RoleFacade
 
 	- App\Model\Repositories\CategoryRepository
 	- App\Model\Repositories\ForgottenPasswordRepository
