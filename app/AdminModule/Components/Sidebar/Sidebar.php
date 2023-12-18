@@ -3,7 +3,6 @@
 namespace App\AdminModule\Components\Sidebar;
 
 use Nette\Application\UI\Control;
-use Nette\Http\Session;
 
 final class Sidebar extends Control
 {
@@ -30,10 +29,15 @@ final class Sidebar extends Control
 			'link' => '',
 			'presenter' => 'i',
 		],
-		'Users' => [
+		'Uživatelé' => [
 			'icon' => 'fa fa-users',
 			'link' => 'Users:default',
 			'presenter' => 'Users:*',
+		],
+		'Přístupy' => [
+			'icon' => 'fa fa-ticket',
+			'link' => 'Permissions:default',
+			'presenter' => 'Permissions:*',
 		],
 	];
 

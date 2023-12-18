@@ -18,16 +18,15 @@
 				<td>{$user->role->roleId}</td>
 				<td class="text-nowrap">
 					<a href="{link edit id=>$user->userId}" class="btn btn-sm btn-outline-primary">upravit</a>
+				{if $user->role->roleId !== 'admin'}
+					<a href="{link delete id=>$user->userId}" class="btn btn-sm btn-outline-danger">smazat</a>
+				{/if}
 				</td>
 			</tr>
 			{/foreach}
 		</tbody>
 	</table>
-
-	{else}
+{else}
 	<p class="text-muted">Nebyly nalezeni žádní uživatelé</p>
-	{/if}
+{/if}
 
-<div class="my-4">
-	<a href="{link add}" class="btn btn-primary">Vytvořit uživatele</a>
-</div>

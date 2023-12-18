@@ -18,11 +18,11 @@ class UsersPresenter extends BasePresenter {
 
 	private User $userToEdit;
 
-	public function renderDefault():void {
+	public function renderDefault(): void {
 		$this->template->users = $this->usersFacade->findUsers();
 	}
 
-	public function actionEdit(?int $id):void {
+	public function actionEdit(?int $id): void {
 		$this->template->id = $id;
 
 		if ($id === null) {
@@ -36,6 +36,29 @@ class UsersPresenter extends BasePresenter {
 			$this->flashMessage('User not found', 'warning');
 			$this->redirect('default');
 		}
+	}
+
+	public function actionDelete(?int $id): void {
+		if ($id === null) {
+			return;
+		}
+
+		try {
+			$user = $this->usersFacade->getUser($id);
+			if ($user->role->roleId === 'admin') {
+				$this->flashMessage('Uživatele s rolí "admin" nelze smazat', 'danger');
+				$this->redirect('default');
+			}
+		} catch (\Throwable) {
+			$this->flashMessage('Uživatel nenalezen', 'warning');
+			$this->redirect('default');
+		}
+
+		try {
+			$this->usersFacade->deleteUser($id);
+			$this->flashMessage('Uživatel smazán', 'info');
+		} catch (\Throwable $e) {}
+		$this->redirect('default');
 	}
 
 	protected function createComponentUserEditForm(): UserEditForm

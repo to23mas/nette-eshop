@@ -18,7 +18,7 @@ use LeanMapper\Exception\InvalidStateException;
 use Nette\Security\SimpleIdentity;
 use Nette\Utils\Random;
 
-class UsersFacade{
+class UsersFacade {
 	private UserRepository $userRepository;
 	private PermissionRepository $permissionRepository;
 	private RoleRepository $roleRepository;
@@ -35,9 +35,14 @@ class UsersFacade{
 		$this->forgottenPasswordRepository=$forgottenPasswordRepository;
 	}
 
-	/**
-   * @throws \Exception
-   */
+	public function deleteUser(int $userId): void
+	{
+		$this->userRepository->deleteUser($userId);
+	}
+
+	 /**
+	 * @throws \Exception
+	 */
 	public function getUser(int $id):User {
 		return $this->userRepository->find($id);
 	}
@@ -47,8 +52,8 @@ class UsersFacade{
 	}
 
 	/**
-   * @throws \Exception
-   */
+	 * @throws \Exception
+	 */
 	public function getUserByEmail(string $email):User {
 		return $this->userRepository->findBy(['email'=>$email]);
 	}
