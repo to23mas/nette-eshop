@@ -2,6 +2,8 @@ services:
 	- App\AdminModule\Components\CategoryEditForm\CategoryEditFormFactory
 	- App\AdminModule\Components\ProductEditForm\ProductEditFormFactory
 	- App\AdminModule\Components\Sidebar\SidebarFactory
+	- App\AdminModule\Components\UserEditForm\UserEditFormFactory
+	- App\AdminModule\Components\PermissionGrid\PermissionGridFactory
 
 	- App\FrontModule\Components\UserLoginForm\UserLoginFormFactory
 	- App\FrontModule\Components\UserRegistrationForm\UserRegistrationFormFactory
