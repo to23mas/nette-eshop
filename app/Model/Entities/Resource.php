@@ -9,6 +9,6 @@ use LeanMapper\Entity;
  * @package App\Model\Entities
  * @property string $resourceId
  */
-class Resource extends Entity{
+class Resource extends Entity {
 
 }

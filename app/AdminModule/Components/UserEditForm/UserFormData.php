@@ -10,6 +10,4 @@ final class UserFormData
 		public string $email,
 		public string $role,
 	) {}
-
 }
-
