@@ -20,6 +20,10 @@ final class PermissionGrid extends Control {
 		$this->getTemplate()->setFile(__DIR__ . '/templates/grid.latte');
 		$this->getTemplate()->render();
 	}
+
+	public function handleEdit(string $id): void {
+		$this->presenter->redirect('Permissions:edit', ['id' => $id]);
+	}
 }
 
 

@@ -30,21 +30,7 @@ services:
 	    setup:
 	        - setMailFrom(%mailFrom.email%,%mailFrom.name%)
 
-	- App\Model\Facades\CategoriesFacade
-	- App\Model\Facades\ProductsFacade
-	- App\Model\Facades\UsersFacade
-	- App\Model\Facades\CartFacade
-	- App\Model\Facades\RoleFacade
-
-	- App\Model\Repositories\CategoryRepository
-	- App\Model\Repositories\ForgottenPasswordRepository
-	- App\Model\Repositories\PermissionRepository
-	- App\Model\Repositories\ProductRepository
-	- App\Model\Repositories\ResourceRepository
-	- App\Model\Repositories\RoleRepository
-	- App\Model\Repositories\UserRepository
-	- App\Model\Repositories\CartRepository
-	- App\Model\Repositories\CartItemRepository
 
 includes:
 	- ui.neon
+	- model.neon

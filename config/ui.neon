@@ -4,6 +4,7 @@ services:
 	- App\AdminModule\Components\Sidebar\SidebarFactory
 	- App\AdminModule\Components\UserEditForm\UserEditFormFactory
 	- App\AdminModule\Components\PermissionGrid\PermissionGridFactory
+	- App\AdminModule\Components\PermissionEditForm\PermissionEditFormFactory
 
 	- App\FrontModule\Components\UserLoginForm\UserLoginFormFactory
 	- App\FrontModule\Components\UserRegistrationForm\UserRegistrationFormFactory

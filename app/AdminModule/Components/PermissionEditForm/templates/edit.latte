@@ -1,0 +1,53 @@
+{form form}
+<div class="card">
+	<div class="card-header p-3">
+
+		<div class="row p-1">
+			<div class="col-2 pt-2">
+				<label n:name=roleId>Role:</label>
+			</div>
+			<div class="col-10">
+				<select n:name=roleId class="w-100 form-select"></select>
+			</div>
+		</div>
+
+		<div class="row p-1 form-group">
+			<div class="col-2 pt-2">
+				<label n:name=resourceId>Resource: </label>
+			</div>
+			<div class="col-10">
+				<select n:name=resourceId class="w-100 form-select"></select>
+			</div>
+		</div>
+
+		<div class="row p-1">
+			<div class="col-2 pt-2">
+				<label n:name=action>Akce:</label>
+			</div>
+			<div class="col-10">
+				<input n:name=action class="w-100 form-control text">
+			</div>
+		</div>
+
+		<div class="row p-1 form-group">
+			<div class="col-2 pt-2">
+				<label n:name=type>Typ: </label>
+			</div>
+			<div class="col-10">
+				<select n:name=type  class="form-select"> </select>
+			</div>
+		</div>
+
+	</div>
+	<div class="card-text">
+		<div class="row p-3">
+			<div class="col">
+				<input n:name=submit class="btn btn-primary">
+				<input n:name=submitAndStay class="btn btn-secondary">
+			</div>
+		</div>
+	</div>
+</div>
+{/form}
+
+
