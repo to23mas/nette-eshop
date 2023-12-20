@@ -76,7 +76,7 @@ final class UserEditForm extends Control {
 	{
 		$this->user->name = $formData->username;
 		$this->user->email = $formData->email;
-		$this->user->role = $this->roleFacade->getRole($formData->role);
+		$this->user->role = $this->roleFacade->get($formData->role);
 		$this->presenter->flashMessage('Uživatel byl úspěšně upraven', 'info');
 		$this->usersFacade->saveUser($this->user);
 

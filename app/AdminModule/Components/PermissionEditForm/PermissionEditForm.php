@@ -20,6 +20,7 @@ final class PermissionEditForm extends Control
 
 	public function __construct(
 		private ?Permission $permission,
+		private ?Role $role,
 		private readonly RoleFacade $roleFacade,
 		private readonly ResourcesFacade $resourcesFacade,
 		private readonly PermissionsFacade $permissionsFacade,
@@ -35,6 +36,8 @@ final class PermissionEditForm extends Control
 	{
 		$form = new Form;
 
+		bdump($this->role);
+		bdump($this->permission);
 		$roleField = $form->addSelect('roleId', null, $this->findRoles());
 
 		$form->addSelect('resourceId', null, $this->findResources())
@@ -45,7 +48,7 @@ final class PermissionEditForm extends Control
 		$typeField = $form->addSelect('type', null, ['allow' => 'allow', 'deny' => 'deny'])
 			->setDefaultValue($this->permission->type);
 
-		if ($this->permission !== null) {
+		if ($this->permission !== null) { // editing
 			$form->setDefaults([
 				'action' => $this->permission->action,
 			]);
@@ -53,6 +56,16 @@ final class PermissionEditForm extends Control
 			$roleField->setDisabled()
 				->setOmitted(false)
 				->setDefaultValue($this->permission->roleId);
+		}
+
+		if ($this->role !== null) { //creating new for $this->role
+			$form->setDefaults([
+				'action' => $this->permission->action,
+			]);
+
+			$roleField->setDisabled()
+				->setOmitted(false)
+				->setDefaultValue($this->role->roleId);
 		}
 
 		$form->addSubmit('submit', 'Save');
@@ -68,6 +81,23 @@ final class PermissionEditForm extends Control
 	public function handleFormSubmitted(Form $form, PermissionFormData $formData): void
 	{
 		if ($this->permission === null) { // create
+			$permission = new Permission([
+				'roleId' => $formData->roleId,
+				'resourceId' => $formData->resourceId,
+				'action' => $formData->action,
+				'type' => $formData->type,
+			]);
+
+			try {
+				if ($this->permissionsFacade->save($permission)) {
+					$this->presenter->flashMessage('Permissions úspěšně vutvořeno', 'info');
+				} else {
+					$this->presenter->flashMessage('Nepodařilo se vytvořit permission', 'danger');
+				}
+			} catch (\Exception) {
+				$this->presenter->flashMessage('Již existuje', 'danger');
+			}
+
 		} else { // edit
 			$this->permission->resourceId = $formData->resourceId;
 			$this->permission->action = $formData->action;
@@ -84,7 +114,7 @@ final class PermissionEditForm extends Control
 
 			$submitAndStay->isSubmittedBy()
 				? $this->redirect('this')
-				: $this->presenter->redirect('Permissions:permissions', ['roleId' => $formData->roleId])
+				: $this->presenter->redirect('Permissions:default', ['roleId' => $formData->roleId])
 			;
 		}
 	}
