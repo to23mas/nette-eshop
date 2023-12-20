@@ -3,18 +3,37 @@
 		<i class="fa-thin fa-coin"></i>
 		<span class="fs-4">E-shop Admin</span>
 	</a>
-	<hr>
+<hr>
 	<ul class="nav nav-pills flex-column mb-auto">
-	{foreach $sidebar as $name => $item}
-		<li>
-			<a n:class="$presenter->isLinkCurrent($item['presenter']) ? active, nav-link, text-white" href="{plink $item['link']}">
-				<i class="{$item['icon']}" style="margin-right: 15px;"></i>
-				{$name}
-			</a>
-		</li>
-	{/foreach}
+		{foreach $sidebar as $name => $item}
+			{if isset($item['subMenu'])}
+			<li class="mb-1">
+				<a class="nav-link btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+					<i class="{$item['icon']}" style="margin-right: 15px;"></i>
+					{$name}
+				</a>
+				<div class="collapse show" id="home-collapse">
+					<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+						{foreach $item['subMenu'] as $name => $item}
+							<a n:class="$presenter->isLinkCurrent($item['presenter']) ? active, nav-link, text-white" href="{plink $item['link']}">
+								<i class="{$item['icon']}" style="margin-right: 15px; padding-left: 15px;"></i>
+								{$name}
+							</a>
+						{/foreach}
+					</ul>
+				</div>
+			</li>
+			{else}
+			<li>
+				<a n:class="$presenter->isLinkCurrent($item['presenter']) ? active, nav-link, text-white" href="{plink $item['link']}">
+					<i class="{$item['icon']}" style="margin-right: 15px;"></i>
+					{$name}
+				</a>
+			</li>
+			{/if}
+		{/foreach}
 	</ul>
-	<hr>
+<hr>
 	<div class="dropdown">
 		<a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
 			<img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">

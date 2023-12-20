@@ -35,7 +35,7 @@ final class Sidebar extends Control
 			'presenter' => 'Users:*',
 		],
 		'Přístupy' => [
-			'icon' => 'fa fa-ticket',
+			'icon' => 'fa fa-id-card',
 			'link' => 'Permissions:default',
 			'presenter' => 'Permissions:*',
 		],

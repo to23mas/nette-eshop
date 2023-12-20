@@ -30,53 +30,25 @@ class PermissionsPresenter extends BasePresenter {
 
 	private ?Permission $permission = null;
 
-	public function renderDefault(): void {
-		$this->template->roles = $this->roleFacade->find();
-	}
-
-	public function actionPermissions(?string $roleId): void {
-		$this->template->roleId = $roleId;
-
-		if ($roleId === null) {
-			return;
-		}
-
-		try {
-			$this->role = $this->roleFacade->getRole($roleId);
-		} catch (\Throwable $e) {
-			$this->flashMessage('Role nenalezena', 'warning');
-			$this->redirect('default');
-		}
-	}
-
-	public function actionDelete(?int $id): void {
-		if ($id === null) {
-			return;
-		}
-
-		try {
-			$user = $this->usersFacade->getUser($id);
-			if ($user->role->roleId === 'admin') {
-				$this->flashMessage('Uživatele s rolí "admin" nelze smazat', 'danger');
-				$this->redirect('default');
-			}
-		} catch (\Throwable) {
-			$this->flashMessage('Uživatel nenalezen', 'warning');
-			$this->redirect('default');
-		}
-
-		try {
-			$this->usersFacade->deleteUser($id);
-			$this->flashMessage('Uživatel smazán', 'info');
-		} catch (\Throwable) {}
-		$this->redirect('default');
-	}
-
-	public function actionEdit(?string $id): void
+	public function renderDefault(?string $roleId): void
 	{
-		if ($id !== null) {
-			$this->permission = $this->permissionsFacade->get((int) $id);
+		if ($roleId !== null) {
+			$this->role = $this->roleFacade->get($roleId);
+		}
+	}
+
+	public function actionEdit(?string $permissionId = null, ?string $roleId = null): void
+	{
+		if ($permissionId !== null) {
+			$this->permission = $this->permissionsFacade->get((int) $permissionId);
 			$this->template->roleId = $this->permission->roleId;
+			$this->template->edit = true;
+		}
+
+		if ($roleId !== null) {
+			$this->role = $this->roleFacade->get($roleId);
+			$this->template->roleId = $roleId;
+			$this->template->edit = false;
 		}
 	}
 
@@ -87,7 +59,7 @@ class PermissionsPresenter extends BasePresenter {
 
 	protected function createComponentPermissionEditForm(): PermissionEditForm
 	{
-		return $this->permissionsEditForm->create($this->permission);
+		return $this->permissionsEditForm->create($this->permission, $this->role);
 	}
 }
 
