@@ -39,6 +39,11 @@ final class Sidebar extends Control
 			'link' => 'Permissions:default',
 			'presenter' => 'Permissions:*',
 		],
+		'Resources' => [
+			'icon' => 'fa fa-id-card',
+			'link' => 'Resources:default',
+			'presenter' => 'Resources:*',
+		],
 	];
 
 	public function render(): void

@@ -13,7 +13,6 @@ use Nette;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
-use Nette\SmartObject;
 
 final class PermissionEditForm extends Control
 {
@@ -36,8 +35,6 @@ final class PermissionEditForm extends Control
 	{
 		$form = new Form;
 
-		bdump($this->role);
-		bdump($this->permission);
 		$roleField = $form->addSelect('roleId', null, $this->findRoles());
 
 		$form->addSelect('resourceId', null, $this->findResources())
