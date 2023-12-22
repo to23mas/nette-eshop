@@ -20,12 +20,8 @@ final class PermissionGrid extends Control {
 	) {}
 
 	public function render(): void {
-		$paginator = new Paginator;
-		$paginator->setPage(1);
-		$paginator->setItemsPerPage(15);
-		$
-		$this->getTemplate()->roles = $this->roleRepository->findAll();
 
+		$this->getTemplate()->roles = $this->roleRepository->findAll();
 		if ($this->role === null) {
 			$this->getTemplate()->permissions = $this->permissionsFacade->find();
 		} else {
@@ -64,6 +60,13 @@ final class PermissionGrid extends Control {
 	public function handleAdd(?string $selectedRole): void {
 		$this->presenter->redirect('Permissions:edit', [
 			'permissionId' => null,
+			'roleId' => $selectedRole,
+		]);
+	}
+
+	public function handleEditResource(string $resourceId, ?string $selectedRole): void {
+		$this->presenter->redirect('Permissions:editResource', [
+			'resourceId' => $resourceId,
 			'roleId' => $selectedRole,
 		]);
 	}
