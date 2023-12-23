@@ -72,9 +72,6 @@ final class PermissionEditForm extends Control
 		return $form;
 	}
 
-	/**
-	 * @throws Error
-	 */
 	public function handleFormSubmitted(Form $form, PermissionFormData $formData): void
 	{
 		if ($this->permission === null) { // create
@@ -111,8 +108,7 @@ final class PermissionEditForm extends Control
 
 			$submitAndStay->isSubmittedBy()
 				? $this->redirect('this')
-				: $this->presenter->redirect('Permissions:default', ['roleId' => $formData->roleId])
-			;
+				: $this->presenter->redirect('Permissions:default', ['roleId' => $formData->roleId]);
 		}
 	}
 

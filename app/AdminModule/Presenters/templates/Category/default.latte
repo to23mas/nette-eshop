@@ -1,32 +1,19 @@
-{varType App\Model\Entities\Category[] $categories}
 {block content}
 
-    <h1 n:block="title">Správa kategorií</h1>
-    {if !empty($categories)}
-        <table class="table table-hover mt-4">
-            <thead>
-                <tr>
-                    <th scope="col">Název kategorie</th>
-                    <th scope="col" class="col-xl-1 col-md-2">Akce</th>
-                </tr>
-            </thead>
-            <tbody>
-                {foreach $categories as $category}
-                    <tr>
-                        <td>{$category->title}</td>
-                        <td class="text-nowrap">
-                            <a href="{link edit id=>$category->categoryId}" class="btn btn-sm btn-outline-primary">upravit</a>
-                            <a href="{link delete id=>$category->categoryId}" class="btn btn-sm btn-outline-danger {if !$user->isAllowed($category,'delete')}disabled{/if}">smazat</a>
-                        </td>
-                    </tr>
-                {/foreach}
-            </tbody>
-        </table>
+<div style="width: 75%; margin-left: auto; margin-right: auto;">
+	<div class="container">
+		<div class="row">
+			<h1 n:block="title">Správa kategorií</h1>
+		</div>
+		<div class="row">
+			<div class="col-9"></div>
+			<div class="col-3">
+				<a href="{link edit}" class="btn btn-success float-end" style="margin-bottom: 5px;">
+					<i class="fa fa-plus" aria-hidden="true"></i>
+				</a>
+			</div>
+		</div>
 
-    {else}
-        <p class="text-muted">Nebyly nalezeny žádné kategorie</p>
-    {/if}
-
-    <div class="my-4">
-        <a href="{link add}" class="btn btn-primary">nová kategorie</a>
-    </div>
+		{control categoriesGrid}
+	</div>
+</div>

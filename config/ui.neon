@@ -1,4 +1,5 @@
 services:
+	- App\AdminModule\Components\ProductGrid\ProductsGridFactory
 	- App\AdminModule\Components\CategoryEditForm\CategoryEditFormFactory
 	- App\AdminModule\Components\ProductEditForm\ProductEditFormFactory
 	- App\AdminModule\Components\Sidebar\SidebarFactory
@@ -7,6 +8,7 @@ services:
 	- App\AdminModule\Components\PermissionEditForm\PermissionEditFormFactory
 	- App\AdminModule\Components\ResourceEditForm\ResourceEditFormFactory
 	- App\AdminModule\Components\ResourceGrid\ResourceGridFactory
+	- App\AdminModule\Components\CategoryGrid\CategoryGridFactory
 
 	- App\FrontModule\Components\UserLoginForm\UserLoginFormFactory
 	- App\FrontModule\Components\UserRegistrationForm\UserRegistrationFormFactory

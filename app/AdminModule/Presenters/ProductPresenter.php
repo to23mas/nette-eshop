@@ -1,79 +1,58 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\AdminModule\Presenters;
 
 use App\AdminModule\Components\ProductEditForm\ProductEditForm;
 use App\AdminModule\Components\ProductEditForm\ProductEditFormFactory;
+use App\AdminModule\Components\ProductGrid\ProductGrid;
+use App\AdminModule\Components\ProductGrid\ProductsGridFactory;
+use App\Model\Entities\Product;
+use App\Model\Facades\CategoriesFacade;
 use App\Model\Facades\ProductsFacade;
 
-/**
- * Class ProductPresenter
- * @package App\AdminModule\Presenters
- */
-class ProductPresenter extends BasePresenter{
-  private ProductsFacade $productsFacade;
-  private ProductEditFormFactory $productEditFormFactory;
+class ProductPresenter extends BasePresenter
+{
 
-  /**
-   * Akce pro vykreslení seznamu produktů
-   */
-  public function renderDefault():void {
-    $this->template->products=$this->productsFacade->findProducts(['order'=>'title']);
-  }
+	public ?Product $product = null;
 
-  /**
-   * Akce pro úpravu jednoho produktu
-   * @param int $id
-   * @throws \Nette\Application\AbortException
-   */
-  public function renderEdit(int $id):void {
-    try{
-      $product=$this->productsFacade->getProduct($id);
-    }catch (\Exception $e){
-      $this->flashMessage('Požadovaný produkt nebyl nalezen.', 'error');
-      $this->redirect('default');
-    }
-    if (!$this->user->isAllowed($product,'edit')){
-      $this->flashMessage('Požadovaný produkt nemůžete upravovat.', 'error');
-      $this->redirect('default');
-    }
+	public ?int $selectedCategory = null;
 
-    $form=$this->getComponent('productEditForm');
-    $form->setDefaults($product);
-    $this->template->product=$product;
-  }
+	public function __construct(
+		public ProductsGridFactory $productGridFactory,
+		public ProductsFacade $productsFacade,
+		public ProductEditFormFactory $productEditFormFactory,
+		public CategoriesFacade $categoriesFacade,
+	) {}
 
-  /**
-   * Formulář na editaci produktů
-   * @return ProductEditForm
-   */
-  public function createComponentProductEditForm():ProductEditForm {
-    $form = $this->productEditFormFactory->create();
-    $form->onCancel[]=function(){
-      $this->redirect('default');
-    };
-    $form->onFinished[]=function($message=null){
-      if (!empty($message)){
-        $this->flashMessage($message);
-      }
-      $this->redirect('default');
-    };
-    $form->onFailed[]=function($message=null){
-      if (!empty($message)){
-        $this->flashMessage($message,'error');
-      }
-      $this->redirect('default');
-    };
-    return $form;
-  }
+	public function renderDefault(?int $selectedCategory = null): void
+	{
+		$this->selectedCategory = $selectedCategory;
+	}
 
-  #region injections
-  public function injectProductsFacade(ProductsFacade $productsFacade):void {
-    $this->productsFacade=$productsFacade;
-  }
-  public function injectProductEditFormFactory(ProductEditFormFactory $productEditFormFactory):void {
-    $this->productEditFormFactory=$productEditFormFactory;
-  }
-  #endregion injections
+	public function actionEdit(?int $productId):void
+	{
+		if ($productId !== null) {
+			try {
+				$this->product = $this->productsFacade->getProduct($productId);
+			} catch (\Exception $e) {
+				$this->flashMessage('Požadovaný produkt nebyl nalezen.', 'error');
+				$this->redirect('default');
+			}
+		}
+		//not sure about this condition TODO
+		// if (!$this->user->isAllowed($product,'edit')) {
+		// 	$this->flashMessage('Požadovaný produkt nemůžete upravovat.', 'error');
+		// 	$this->redirect('default');
+		// }
+	}
 
+	protected function createComponentProductEditForm(): ProductEditForm
+	{
+		return $this->productEditFormFactory->create($this->product);
+	}
+
+	protected function createComponentProductGrid(): ProductGrid
+	{
+		return $this->productGridFactory->create($this->selectedCategory);
+	}
 }
