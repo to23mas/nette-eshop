@@ -25,7 +25,7 @@ final class Sidebar extends Control
 			'presenter' => 'Category:*',
 		],
 		'Objednávky' => [
-			'icon' => 'fa fa-vcard',
+			'icon' => 'fa fa-shopping-basket',
 			'link' => '',
 			'presenter' => 'i',
 		],
@@ -40,7 +40,7 @@ final class Sidebar extends Control
 			'presenter' => 'Permissions:*',
 		],
 		'Resources' => [
-			'icon' => 'fa fa-id-card',
+			'icon' => 'fa fa-address-book-o',
 			'link' => 'Resources:default',
 			'presenter' => 'Resources:*',
 		],

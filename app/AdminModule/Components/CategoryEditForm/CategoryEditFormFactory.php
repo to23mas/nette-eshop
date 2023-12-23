@@ -1,13 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\AdminModule\Components\CategoryEditForm;
 
-/**
- * Interface CategoryEditFormFactory
- * @package App\AdminModule\Components\CategoryEditForm
- */
-interface CategoryEditFormFactory{
+use App\Model\Entities\Category;
 
-  public function create():CategoryEditForm;
+interface CategoryEditFormFactory {
+
+	public function create(?Category $category): CategoryEditForm;
 
 }

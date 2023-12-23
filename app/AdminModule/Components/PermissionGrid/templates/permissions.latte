@@ -21,19 +21,19 @@
 		</ul>
 	</div>
 	<div class="col-1">
-		<a href="{link add selectedRole=>$selectedRole}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a>
+		<a href="{link add selectedRole=>$selectedRole}" class="btn btn-success float-end"><i class="fa fa-plus" aria-hidden="true"></i></a>
 	</div>
 </div>
 
 <table class="table table-striped table-hover">
 	<thead class="table-dark">
 		<tr>
-			<th scope="col">id</th>
+			<th scope="col"></th>
 			<th scope="col">role</th>
 			<th scope="col">resource</th>
 			<th scope="col">action</th>
 			<th scope="col">type</th>
-			<th scope="col">akce</th>
+			<th scope="col" style="text-align: right; margin-right: 15px;">akce</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -50,7 +50,7 @@
 			</td>
 			<td>{$permission->action}</td>
 			<td>{$permission->type}</td>
-			<td class="text-nowrap">
+			<td class="text-nowrap" style="text-align: right;">
 				<a href="{link edit permissionId=>$permission->permissionId}" class="btn btn-sm btn-outline-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 				<a onclick="return confirm('Opravdu chceš smazat?');" href="{link delete permissionId=>$permission->permissionId, selectedRole=>$selectedRole}" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
 			</td>

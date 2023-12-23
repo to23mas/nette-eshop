@@ -5,6 +5,7 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components\UserEditForm\UserEditForm;
 use App\AdminModule\Components\UserEditForm\UserEditFormFactory;
 use App\Model\Entities\User;
+use App\Model\Facades\RoleFacade;
 use App\Model\Facades\UsersFacade;
 use Nette\DI\Attributes\Inject;
 
@@ -16,10 +17,24 @@ class UsersPresenter extends BasePresenter {
 	#[Inject]
 	public UserEditFormFactory $userEditFormFactory;
 
+	#[Inject]
+	public RoleFacade $roleFacade;
+
 	private User $userToEdit;
 
-	public function renderDefault(): void {
-		$this->template->users = $this->usersFacade->findUsers();
+	public function renderDefault(?string $selectedRole = null): void {
+		$this->flashMessage('ahoj');
+		$this->flashMessage('nazdar');
+		$this->flashMessage('bazar');
+		$this->template->selectedRole = $selectedRole;
+
+		if ($selectedRole !== null) {
+			$this->template->users = $this->usersFacade->findBy(['role_id' => $selectedRole]);
+		} else {
+			$this->template->users = $this->usersFacade->findUsers();
+		}
+
+		$this->template->roles = $this->roleFacade->find();
 	}
 
 	public function actionEdit(?int $id): void {

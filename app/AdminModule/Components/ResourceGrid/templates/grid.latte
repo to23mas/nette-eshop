@@ -4,14 +4,14 @@
 	<thead class="table-dark">
 		<tr>
 			<th scope="col">resource ID</th>
-			<th scope="col">akce</th>
+			<th scope="col" style="text-align: right;padding-right: 15px;">akce</th>
 		</tr>
 	</thead>
 	<tbody>
 		{foreach $resources as $resource}
 		<tr>
 			<td> {$resource->resourceId}</td>
-			<td class="text-nowrap">
+			<td class="text-nowrap" style="text-align: right;">
 				<a href="{link edit resourceId=>$resource->resourceId}" class="btn btn-sm btn-outline-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 				<a onclick="return confirm('Opravdu chceš smazat?');" href="{link delete resourceId => $resource->resourceId}" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
 			</td>

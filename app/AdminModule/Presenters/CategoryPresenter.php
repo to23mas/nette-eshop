@@ -1,101 +1,50 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\AdminModule\Presenters;
 
 use App\AdminModule\Components\CategoryEditForm\CategoryEditForm;
 use App\AdminModule\Components\CategoryEditForm\CategoryEditFormFactory;
+use App\AdminModule\Components\CategoryGrid\CategoryGrid;
+use App\AdminModule\Components\CategoryGrid\CategoryGridFactory;
+use App\Model\Entities\Category;
 use App\Model\Facades\CategoriesFacade;
+use Nette\DI\Attributes\Inject;
 
-/**
- * Class CategoryPresenter
- * @package App\AdminModule\Presenters
- */
-class CategoryPresenter extends BasePresenter{
-  private CategoriesFacade $categoriesFacade;
-  private CategoryEditFormFactory $categoryEditFormFactory;
+final class CategoryPresenter extends BasePresenter {
 
-  /**
-   * Akce pro vykreslení seznamu kategorií
-   */
-  public function renderDefault():void {
-    $this->template->categories=$this->categoriesFacade->findCategories(['order'=>'title']);
-  }
+	#[Inject]
+	public CategoriesFacade $categoriesFacade;
 
-  /**
-   * Akce pro úpravu jedné kategorie
-   * @param int $id
-   * @throws \Nette\Application\AbortException
-   */
-  public function renderEdit(int $id):void {
-    try{
-      $category=$this->categoriesFacade->getCategory($id);
-    }catch (\Exception $e){
-      $this->flashMessage('Požadovaná kategorie nebyla nalezena.', 'error');
-      $this->redirect('default');
-    }
-    $form=$this->getComponent('categoryEditForm');
-    $form->setDefaults($category);
-    $this->template->category=$category;
-  }
+	#[Inject]
+	public CategoryEditFormFactory $categoryEditFormFactory;
 
-  /**
-   * Akce pro smazání kategorie
-   * @param int $id
-   * @throws \Nette\Application\AbortException
-   */
-  public function actionDelete(int $id):void {
-    try{
-      $category=$this->categoriesFacade->getCategory($id);
-    }catch (\Exception $e){
-      $this->flashMessage('Požadovaná kategorie nebyla nalezena.', 'error');
-      $this->redirect('default');
-    }
+	#[Inject]
+	public CategoryGridFactory $categoryGrid;
 
-    if (!$this->user->isAllowed($category,'delete')){
-      $this->flashMessage('Tuto kategorii není možné smazat.', 'error');
-      $this->redirect('default');
-    }
+	public ?Category $category = null;
 
-    if ($this->categoriesFacade->deleteCategory($category)){
-      $this->flashMessage('Kategorie byla smazána.', 'info');
-    }else{
-      $this->flashMessage('Tuto kategorii není možné smazat.', 'error');
-    }
+	public function renderDefault(): void {
+		$this->template->categories=$this->categoriesFacade->findCategories(['order'=>'title']);
+	}
 
-    $this->redirect('default');
-  }
+	public function actionEdit(?int $categoryId):void {
+		if ($categoryId !== null) {
+			try{
+				$this->category = $this->categoriesFacade->getCategory($categoryId);
+			} catch (\Throwable) {
+				$this->flashMessage('Požadovaná kategorie nebyla nalezena.', 'error');
+				$this->redirect('default');
+			}
+		}
+	}
 
-  /**
-   * Formulář na editaci kategorií
-   * @return CategoryEditForm
-   */
-  public function createComponentCategoryEditForm():CategoryEditForm {
-    $form = $this->categoryEditFormFactory->create();
-    $form->onCancel[]=function(){
-      $this->redirect('default');
-    };
-    $form->onFinished[]=function($message=null){
-      if (!empty($message)){
-        $this->flashMessage($message);
-      }
-      $this->redirect('default');
-    };
-    $form->onFailed[]=function($message=null){
-      if (!empty($message)){
-        $this->flashMessage($message,'error');
-      }
-      $this->redirect('default');
-    };
-    return $form;
-  }
+	protected function createComponentCategoriesGrid(): CategoryGrid
+	{
+		return $this->categoryGrid->create();
+	}
 
-  #region injections
-  public function injectCategoriesFacade(CategoriesFacade $categoriesFacade):void {
-    $this->categoriesFacade=$categoriesFacade;
-  }
-  public function injectCategoryEditFormFactory(CategoryEditFormFactory $categoryEditFormFactory):void {
-    $this->categoryEditFormFactory=$categoryEditFormFactory;
-  }
-  #endregion injections
-
+	public function createComponentCategoriesEditForm(): CategoryEditForm
+	{
+		return $this->categoryEditFormFactory->create($this->category);
+	}
 }
