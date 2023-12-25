@@ -4,6 +4,6 @@ namespace App\AdminModule\Components\ProductGrid;
 
 interface ProductsGridFactory {
 
-  public function create(?int $categoryId = null): ProductGrid;
+  public function create(?array $searchParams = null): ProductGrid;
 
 }

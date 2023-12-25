@@ -23,9 +23,6 @@ class UsersPresenter extends BasePresenter {
 	private User $userToEdit;
 
 	public function renderDefault(?string $selectedRole = null): void {
-		$this->flashMessage('ahoj');
-		$this->flashMessage('nazdar');
-		$this->flashMessage('bazar');
 		$this->template->selectedRole = $selectedRole;
 
 		if ($selectedRole !== null) {

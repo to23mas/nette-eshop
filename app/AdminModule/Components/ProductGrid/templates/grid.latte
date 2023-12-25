@@ -1,34 +1,65 @@
-{if !empty($products)}
-
 <table class="table table-striped table-hover">
 	<thead class="table-dark">
 		<tr>
+			<th scope="col">dosupné</th>
 			<th scope="col">kategorie</th>
 			<th scope="col">název</th>
 			<th scope="col">url</th>
 			<th scope="col">popis</th>
 			<th scope="col">cena</th>
-			<th scope="col">dosupné</th>
+			<th scope="col">foto</th>
 			<th scope="col" style="text-align: right; padding-right: 15px">akce</th>
 		</tr>
 	</thead>
-	<tbody>
+	<tbody style="vertical-align: middle;">
+		{form form}
+		<tr>
+			<td> <select n:name=available class="w-100 form-select"></select> </td>
+			<td> <select n:name=categories class="w-100 form-select"></select> </td>
+			<td> <input n:name=title class="form-control text"> </td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td colspan="2" style="text-align: right">
+				<button n:name=search class="btn btn-md btn-primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+				<button n:name=clear class="btn btn-sm btn-danger"><i class="fa fa-ban" aria-hidden="true"></i></button>
+			</td>
+		</tr>
+		{/form}
+		{if !empty($products)}
+		<tr>
+			<td></td>
+		</tr>
 		{foreach $products as $product}
 		<tr>
+			<td>
+				{if $product->available}
+				<i class="fa fa-check" aria-hidden="true" style="color: green; margin-left: 10px;"></i>
+				{else}
+				<i class="fa fa-cross" aria-hidden="true" style="color: red; margin-left: 10px;"></i>
+				{/if}
+			</td>
 			<td>{$product->category->title}</td>
 			<td>{$product->title}</td>
 			<td>{$product->url}</td>
 			<td>{$product->description}</td>
 			<td>{$product->price}</td>
-			<td>{$product->available}</td>
+			<td>
+				{if file_exists("img/products/" . $product->productId . "." . $product->photoExtension)}
+				<img class="img-thumbnail" src="../../img/products/{$product->productId}.{$product->photoExtension}" style="max-height: 70px;">
+					{else}
+				<img class="img-thumbnail" src="../../img/products/no.png" style="max-height: 70px;">
+					{/if}
+			</td>
 			<td class="text-nowrap" style="text-align: right;">
 				<a href="{link edit productId=>$product->productId}" class="btn btn-sm btn-outline-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 				<a onclick="return confirm('Opravdu chceš smazat?');" href="{link delete productId=>$product->productId}" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
 			</td>
 		</tr>
 		{/foreach}
+		{/if}
 	</tbody>
 </table>
-{else}
+{if empty($products)}
 <p class="text-muted">Nebyly nalezeny žádné produkty</p>
 {/if}
