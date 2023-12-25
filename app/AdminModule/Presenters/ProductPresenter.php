@@ -15,7 +15,7 @@ class ProductPresenter extends BasePresenter
 
 	public ?Product $product = null;
 
-	public ?int $selectedCategory = null;
+	public ?array $searchParams = null;
 
 	public function __construct(
 		public ProductsGridFactory $productGridFactory,
@@ -24,9 +24,9 @@ class ProductPresenter extends BasePresenter
 		public CategoriesFacade $categoriesFacade,
 	) {}
 
-	public function renderDefault(?int $selectedCategory = null): void
+	public function renderDefault(?array $searchParams = null): void
 	{
-		$this->selectedCategory = $selectedCategory;
+		$this->searchParams = $searchParams;
 	}
 
 	public function actionEdit(?int $productId):void
@@ -34,7 +34,7 @@ class ProductPresenter extends BasePresenter
 		if ($productId !== null) {
 			try {
 				$this->product = $this->productsFacade->getProduct($productId);
-			} catch (\Exception $e) {
+			} catch (\Throwable) {
 				$this->flashMessage('Požadovaný produkt nebyl nalezen.', 'error');
 				$this->redirect('default');
 			}
@@ -53,6 +53,6 @@ class ProductPresenter extends BasePresenter
 
 	protected function createComponentProductGrid(): ProductGrid
 	{
-		return $this->productGridFactory->create($this->selectedCategory);
+		return $this->productGridFactory->create($this->searchParams);
 	}
 }

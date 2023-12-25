@@ -48,9 +48,9 @@ class ProductEditForm extends Control
 			->setRequired('Pro uložení nového produktu je nutné nahrát jeho fotku.')
 			->addRule(Form::MAX_FILE_SIZE, 'Nahraný soubor je příliš velký', 1000000)
 			->addCondition(Form::FILLED)
-			->addRule(function(UploadControl $photoUpload){
+			->addRule(function(UploadControl $photoUpload) {
 				$uploadedFile = $photoUpload->value;
-				if ($uploadedFile instanceof FileUpload){
+				if ($uploadedFile instanceof FileUpload) {
 					$extension=strtolower($uploadedFile->getImageFileExtension());
 					return in_array($extension,['jpg','jpeg','png']);
 				}
@@ -105,8 +105,28 @@ class ProductEditForm extends Control
 			//
 	}
 
-	public function handleFormSubmitted(Form $form): void
+	public function handleFormSubmitted(Form $form, ProductFormData $formData): void
 	{
+		$product = new Product;
+
+		$product->title = $formData->title;
+		$product->description = $formData->description;
+		$product->url = $formData->url;
+		$product->price = (float) $formData->price;
+		$product->available = $formData->available;
+		$product->category = $this->categoriesFacade->getCategory($formData->categories);
+		$product->photoExtension = $formData->photo->getImageFileExtension();
+
+		$this->productsFacade->saveProduct($product);
+
+		if (($formData->photo instanceof FileUpload) && ($formData->photo->isOk())){
+			try {
+				$this->productsFacade->saveProductPhoto($formData->photo, $product);
+			} catch (\Exception $e){
+				bdump($e);
+				// $this->onFailed('Produkt byl uložen, ale nepodařilo se uložit jeho fotku.');
+			}
+		}
 	}
 
 	private function findCategories(): array
