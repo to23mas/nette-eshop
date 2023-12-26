@@ -2,6 +2,8 @@
 
 namespace App\AdminModule\Presenters;
 
+use App\AdminModule\Components\ProductEditForm\ProductAddForm;
+use App\AdminModule\Components\ProductEditForm\ProductAddFormFactory;
 use App\AdminModule\Components\ProductEditForm\ProductEditForm;
 use App\AdminModule\Components\ProductEditForm\ProductEditFormFactory;
 use App\AdminModule\Components\ProductGrid\ProductGrid;
@@ -21,6 +23,7 @@ class ProductPresenter extends BasePresenter
 		public ProductsGridFactory $productGridFactory,
 		public ProductsFacade $productsFacade,
 		public ProductEditFormFactory $productEditFormFactory,
+		public ProductAddFormFactory $productAddFormFactory,
 		public CategoriesFacade $categoriesFacade,
 	) {}
 
@@ -28,6 +31,8 @@ class ProductPresenter extends BasePresenter
 	{
 		$this->searchParams = $searchParams;
 	}
+
+	public function actionAdd():void {}
 
 	public function actionEdit(?int $productId):void
 	{
@@ -39,11 +44,11 @@ class ProductPresenter extends BasePresenter
 				$this->redirect('default');
 			}
 		}
-		//not sure about this condition TODO
-		// if (!$this->user->isAllowed($product,'edit')) {
-		// 	$this->flashMessage('Požadovaný produkt nemůžete upravovat.', 'error');
-		// 	$this->redirect('default');
-		// }
+	}
+
+	protected function createComponentProductAddForm(): ProductAddForm
+	{
+		return $this->productAddFormFactory->create();
 	}
 
 	protected function createComponentProductEditForm(): ProductEditForm
