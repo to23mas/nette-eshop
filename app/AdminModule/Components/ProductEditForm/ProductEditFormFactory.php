@@ -1,13 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\AdminModule\Components\ProductEditForm;
 
-/**
- * Interface ProductEditFormFactory
- * @package App\AdminModule\Components\ProductEditForm
- */
-interface ProductEditFormFactory{
+use App\Model\Entities\Product;
 
-  public function create():ProductEditForm;
+interface ProductEditFormFactory
+{
 
+  public function create(?Product $product = null): ProductEditForm;
 }

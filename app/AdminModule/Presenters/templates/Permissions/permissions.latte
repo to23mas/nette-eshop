@@ -6,19 +6,15 @@
 			<h1 n:block="title" class="pb-4">Permisison</h1>
 		</div>
 		<div class="row mb-3">
-			<div class="col-10">
+			<div class="col-9">
 				<p class="text-muted">Upravuješ roli: <strong>{$roleId}</strong></p>
 			</div>
-			<div class="col-2">
-				<a n:href="Permissions:default" class="btn btn-warning float-end">Zpět</a>
+			<div class="col-3">
+				<a n:href="Role:default" class="btn btn-warning float-end">Zpět</a>
+				<a href="{link Permissions:edit roleId => $roleId}" class="btn btn-success float-end" style="margin-right: 15px;">+</a>
 			</div>
 		</div>
-
 		{control permissionGrid}
-
-		<div class="my-4">
-			<a href="{link edit id => 1}" class="btn btn-primary">přidat</a>
-		</div>
 	</div>
 </div>
 

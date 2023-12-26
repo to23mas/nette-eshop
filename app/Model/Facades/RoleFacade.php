@@ -14,8 +14,7 @@ final class RoleFacade {
 	/**
 	 * @throws \Exception
 	 */
-	public function getRole(string $roleId): Role {
-		// bdump( $this->roleRepository->findBy(['role_id' => $roleId]));
+	public function get(string $roleId): Role {
 		return $this->roleRepository->findBy(['role_id' => $roleId]);
 	}
 

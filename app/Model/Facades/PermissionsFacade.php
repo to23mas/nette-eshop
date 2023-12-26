@@ -22,8 +22,16 @@ final class PermissionsFacade {
 		return $this->permissionRepository->findAll();
 	}
 
-	public function save(Permission &$permission):bool {
+	public function findBy(array $arg): array {
+		return $this->permissionRepository->findAllBy($arg);
+	}
+
+	public function save(Permission &$permission): bool {
 		return (bool) $this->permissionRepository->persist($permission);
+	}
+
+	public function deleteEntity(Permission &$permission): void {
+		$this->permissionRepository->delete($permission);
 	}
 }
 

@@ -3,9 +3,10 @@
 namespace App\AdminModule\Components\PermissionEditForm;
 
 use App\Model\Entities\Permission;
+use App\Model\Entities\Role;
 
 interface PermissionEditFormFactory {
 
-  public function create(?Permission $permission): PermissionEditForm;
+  public function create(?Permission $permission, ?Role $role): PermissionEditForm;
 }
 

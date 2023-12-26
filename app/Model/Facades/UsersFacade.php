@@ -51,6 +51,10 @@ class UsersFacade {
 		return $this->userRepository->findAll();
 	}
 
+	public function findBy(array $args): array {
+		return $this->userRepository->findAllBy($args);
+	}
+
 	/**
 	 * @throws \Exception
 	 */
