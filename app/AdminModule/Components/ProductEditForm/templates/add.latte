@@ -56,21 +56,14 @@
 			</div>
 
 		</div>
-
 		<hr>
 
-		<div class="row p-1">
+		<div class="row align-items-center p-1">
 			<div class="col-2 pt-2">
-				<input n:name=foto class="btn btn-primary">
+				<label n:name=photo>Fotka:</label>
 			</div>
-			<div class="col-8"></div>
-			<div class="col-2">
-
-			{if file_exists("img/products/" . $product->productId . "." . $product->photoExtension)}
-				<img class="img-thumbnail" src="../../img/products/{$product->productId}.{$product->photoExtension}">
-			{else}
-				<img class="img-thumbnail" src="../../img/products/no.png">
-			{/if}
+			<div class="col-8">
+				<input type="file" n:name=photo class="form-control">
 			</div>
 		</div>
 
@@ -86,3 +79,4 @@
 	</div>
 </div>
 {/form}
+

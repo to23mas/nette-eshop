@@ -86,13 +86,11 @@ final class ResourceEditForm extends Control
 			if ($this->create) {
 				$submitAndStay->isSubmittedBy()
 					? $this->presenter->redirect('Resources:edit', ['resourceId' => $formData->resourceId])
-					: $this->presenter->redirect('Resources:default')
-				;
+					: $this->presenter->redirect('Resources:default');
 			} else {
 				$submitAndStay->isSubmittedBy()
 					? $this->presenter->redirect('Permissions:editResource', ['resourceId' => $formData->resourceId])
-					: $this->presenter->redirect('Permissions:default', ['roleId' => null])
-				;
+					: $this->presenter->redirect('Permissions:default', ['roleId' => null]);
 			}
 		}
 	}

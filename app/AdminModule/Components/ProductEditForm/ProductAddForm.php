@@ -15,19 +15,17 @@ use Nette\Forms\Controls\UploadControl;
 use Nette\Http\FileUpload;
 use Nette\Utils\Strings;
 
-class ProductEditForm extends Control
+class ProductAddForm extends Control
 {
 
 	public function __construct(
-		private ?Product $product,
 		private readonly CategoriesFacade $categoriesFacade,
 		private readonly ProductsFacade $productsFacade,
 	) { }
 
 	public function render(): void
 	{
-		$this->getTemplate()->product = $this->product;
-		$this->getTemplate()->setFile(__DIR__ . '/templates/edit.latte');
+		$this->getTemplate()->setFile(__DIR__ . '/templates/add.latte');
 		$this->getTemplate()->render();
 	}
 
@@ -39,7 +37,7 @@ class ProductEditForm extends Control
 			->setRequired('Musíte zadat název produktu')
 			->setMaxLength(100);
 
-		$form->addText('description')->setNullable();
+		$form->addText('description');
 
 		$form->addText('price')
 			->setHtmlType('number')
@@ -62,43 +60,49 @@ class ProductEditForm extends Control
 				}
 		},'Zvolená URL je již obsazena jiným produktem');
 
+		$form->addUpload('photo')
+			->setRequired('Pro uložení nového produktu je nutné nahrát jeho fotku.')
+			->addRule(Form::MAX_FILE_SIZE, 'Nahraný soubor je příliš velký', 1000000)
+			->addCondition(Form::FILLED)
+			->addRule(function(UploadControl $photoUpload) {
+				$uploadedFile = $photoUpload->value;
+				if ($uploadedFile instanceof FileUpload) {
+					$extension=strtolower($uploadedFile->getImageFileExtension());
+					return in_array($extension,['jpg','jpeg','png']);
+				}
+				return false;
+				},'Je nutné nahrát obrázek ve formátu JPEG či PNG.');
+
 		$form->addSelect('categories', null, $this->findCategories())
-			->setDefaultValue($this->product->category->categoryId)
-			->setPrompt('--vyberte kategorii--');
-
-
-		$form->setValues([
-			'title' => $this->product->title,
-			'description' => $this->product->description,
-			'price' => $this->product->price,
-			'available' => $this->product->available,
-			'url' => $this->product->url,
-		]);
+			->setPrompt('--vyberte kategorii--')
+			->setRequired(false);
 
 		$form->addSubmit('submit', 'Save');
-		$form->addSubmit('foto', 'Změň foto');
 		$form->addSubmit('submitAndStay', 'Save and Stay');
 
 		$form->onSuccess[] = [$this, 'handleFormSubmitted'];
 		return $form;
 	}
 
-	public function handleFormSubmitted(Form $form, EditFormData $formData): void
+	public function handleFormSubmitted(Form $form, ProductFormData $formData): void
 	{
-		$this->product->title = $formData->title;
-		$this->product->description = $formData->description;
-		$this->product->url = $formData->url;
-		$this->product->price = (float) $formData->price;
-		$this->product->available = $formData->available;
-		$this->product->category = $formData->categories === null ? null : $this->categoriesFacade->getCategory($formData->categories);
+		$product = new Product;
+
+		$product->title = $formData->title;
+		$product->description = $formData->description;
+		$product->url = $formData->url;
+		$product->price = (float) $formData->price;
+		$product->available = $formData->available;
+		$product->category = $formData->categories === null ?  null : $this->categoriesFacade->getCategory($formData->categories);
+		$product->photoExtension = $formData->photo->getImageFileExtension();
 
 		try {
-			$this->productsFacade->saveProduct($this->product);
-			$this->presenter->flashMessage('Produkt upraven', 'info');
+			$this->productsFacade->saveProduct($product);
+			$this->presenter->flashMessage('Produkt vytvořen', 'info');
 		} catch (\Throwable) {
-			$this->presenter->flashMessage('Nepodařilo se upravit produkt', 'danger');
+			$this->presenter->flashMessage('Nepodařilo se vytvořit produkt', 'danger');
+			return;
 		}
-
 		if (($formData->photo instanceof FileUpload) && ($formData->photo->isOk())){
 			try {
 				$this->productsFacade->saveProductPhoto($formData->photo, $product);
@@ -111,8 +115,8 @@ class ProductEditForm extends Control
 		$submitAndStay = $form['submitAndStay'];
 
 		$submitAndStay->isSubmittedBy()
-			? $this->presenter->redirect('Product:edit', ['productId' => $this->product->productId ?? $product->productId])
-			: $this->presenter->redirect('Product:default');
+		? $this->presenter->redirect('Product:edit', ['productId' => $product->productId])
+		: $this->presenter->redirect('Product:default');
 	}
 
 	private function findCategories(): array
