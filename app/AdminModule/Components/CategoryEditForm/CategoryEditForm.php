@@ -43,7 +43,7 @@ class CategoryEditForm extends Control
 		}
 
 		$form->addSubmit('submit', 'Save');
-		$form->addSubmit('submitAndStay', 'Save and Stay');
+		$form->addSubmit('submitAndStay', 'Uložit a zůstat');
 
 		$form->onSuccess[] = [$this, 'handleFormSubmitted'];
 		return $form;
