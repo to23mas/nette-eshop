@@ -40,8 +40,8 @@ final class UserEditForm extends Control {
 			->setDefaultValue($this->user->role->roleId);
 
 
-		$form->addSubmit('submit', 'Save');
-		$form->addSubmit('submitAndStay', 'Save and Stay');
+		$form->addSubmit('submit', 'Uložit');
+		$form->addSubmit('submitAndStay', 'Uložit a zůstat');
 
 		if ($this->user !== null) {
 			$form->setDefaults([
