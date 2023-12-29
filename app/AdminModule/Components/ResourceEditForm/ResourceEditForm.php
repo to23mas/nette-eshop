@@ -5,7 +5,6 @@ namespace App\AdminModule\Components\ResourceEditForm;
 use App\Model\Entities\Resource;
 use App\Model\Facades\ResourcesFacade;
 use Error;
-use Nette;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
