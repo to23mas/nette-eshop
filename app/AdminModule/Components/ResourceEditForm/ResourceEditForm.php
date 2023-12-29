@@ -37,8 +37,8 @@ final class ResourceEditForm extends Control
 			]);
 		}
 
-		$form->addSubmit('submit', 'Save');
-		$form->addSubmit('submitAndStay', 'Save and Stay');
+		$form->addSubmit('submit', 'Uložit');
+		$form->addSubmit('submitAndStay', 'Uložit a zůstat');
 
 		$form->onSuccess[] = [$this, 'handleFormSubmitted'];
 		return $form;

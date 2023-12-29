@@ -8,6 +8,7 @@ use App\Model\Entities\User;
 use App\Model\Facades\RoleFacade;
 use App\Model\Facades\UsersFacade;
 use Nette\DI\Attributes\Inject;
+use Nette\Utils\Paginator;
 
 class UsersPresenter extends BasePresenter {
 
@@ -22,15 +23,26 @@ class UsersPresenter extends BasePresenter {
 
 	private User $userToEdit;
 
-	public function renderDefault(?string $selectedRole = null): void {
+	public function renderDefault(?string $selectedRole = null, int $page = 1): void {
+		$paginator = new Paginator;
+		$paginator->setItemsPerPage(10);
+		$paginator->setPage($page);
+
 		$this->template->selectedRole = $selectedRole;
 
 		if ($selectedRole !== null) {
-			$this->template->users = $this->usersFacade->findBy(['role_id' => $selectedRole]);
+			$paginator->setItemCount($this->usersFacade->getCount(['role_id' => $selectedRole]));
+			$this->template->users = $this->usersFacade->findAllBy(
+				['role_id' => $selectedRole], $paginator->getOffset(), $paginator->getLength()
+			);
 		} else {
-			$this->template->users = $this->usersFacade->findUsers();
+			$paginator->setItemCount($this->usersFacade->getCount());
+			$this->template->users= $this->usersFacade->findAllBy(
+				null, $paginator->getOffset(), $paginator->getLength()
+			);
 		}
 
+		$this->template->paginator = $paginator;
 		$this->template->roles = $this->roleFacade->find();
 	}
 

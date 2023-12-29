@@ -2,6 +2,7 @@
 
 namespace App\AdminModule\Components\ResourceGrid;
 
+use App\AdminModule\Components\Grid\PaginatedGrid;
 use App\Model\Entities\Role;
 use App\Model\Facades\PermissionsFacade;
 use App\Model\Facades\ResourcesFacade;
@@ -11,14 +12,19 @@ use Nette\Application\UI\Control;
 use Nette\Utils\Paginator;
 
 
-final class ResourceGrid extends Control {
+final class ResourceGrid extends PaginatedGrid {
 
 	public function __construct(
 		private readonly ResourcesFacade $resourcesFacade,
-	) {}
+		private int $page = 1,
+	) {
+		parent::__construct(8, $this->resourcesFacade->getCount());
+	}
 
-	public function render(): void {
-		$this->getTemplate()->resources = $this->resourcesFacade->find();
+	public function render(): void
+	{
+		$this->getTemplate()->resources = $this->resourcesFacade->findAllBy(null, $this->paginator->getOffset(), $this->paginator->getLength());
+		$this->getTemplate()->paginator = $this->paginator;
 		$this->getTemplate()->setFile(__DIR__ . '/templates/grid.latte');
 		$this->getTemplate()->render();
 	}
@@ -39,7 +45,5 @@ final class ResourceGrid extends Control {
 
 		$this->presenter->redirect('Resources:default');
 	}
-
-
 }
 
