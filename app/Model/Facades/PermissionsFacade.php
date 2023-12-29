@@ -26,12 +26,20 @@ final class PermissionsFacade {
 		return $this->permissionRepository->findAllBy($arg);
 	}
 
+	public function findAllBy(?array $where = null, ?int $offset, ?int $limit): array {
+		return $this->permissionRepository->findAllBy($where, $offset, $limit);
+	}
+
 	public function save(Permission &$permission): bool {
 		return (bool) $this->permissionRepository->persist($permission);
 	}
 
 	public function deleteEntity(Permission &$permission): void {
 		$this->permissionRepository->delete($permission);
+	}
+
+	public function getCount(?array $whereArr = null): int {
+		return  $this->permissionRepository->findCountBy($whereArr);
 	}
 }
 

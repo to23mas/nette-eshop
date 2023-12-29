@@ -2,7 +2,7 @@
 <div style="width: 75%; margin-left: auto; margin-right: auto;">
 	<div class="container">
 		<div class="row">
-			<h1 n:block="title">Správa uživtelů</h1>
+			<h3 n:block="title">Správa uživtelů</h3>
 		</div>
 	</div>
 
@@ -44,15 +44,34 @@
 				<td>{$user->email}</td>
 				<td>{$user->role->roleId}</td>
 				<td class="text-nowrap">
-					<a href="{link edit id=>$user->userId}" class="btn btn-sm btn-outline-primary">upravit</a>
+					<a href="{link edit id=>$user->userId}" class="btn btn-sm btn-outline-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 					{if $user->role->roleId !== 'admin'}
-					<a href="{link delete id=>$user->userId}" class="btn btn-sm btn-outline-danger">smazat</a>
+					<a onclick="return confirm('Opravdu chceš smazat?');" href="{link delete id=>$user->userId}" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
 					{/if}
 				</td>
 			</tr>
 			{/foreach}
 		</tbody>
 	</table>
+
+	<div class="pagination">
+		{if !$paginator->isFirst()}
+		<a n:href="default, $selectedRole, 1">První</a>
+		&nbsp;|&nbsp;
+		<a n:href="default, $selectedRole, $paginator->page-1">Předchozí</a>
+		&nbsp;|&nbsp;
+		{/if}
+
+		Stránka {$paginator->getPage()} z {$paginator->getPageCount()}
+
+		{if !$paginator->isLast()}
+		&nbsp;|&nbsp;
+		<a n:href="default, $selectedRole, $paginator->getPage() + 1">Další</a>
+		&nbsp;|&nbsp;
+		<a n:href="default, $selectedRole, $paginator->getPageCount()">Poslední</a>
+		{/if}
+	</div>
+
 	{else}
 	<p class="text-muted">Nebyly nalezeni žádní uživatelé</p>
 	{/if}

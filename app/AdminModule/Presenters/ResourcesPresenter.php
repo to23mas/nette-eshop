@@ -33,7 +33,7 @@ class ResourcesPresenter extends BasePresenter {
 
 		if ($resourceId !== null) {
 			$this->resource = $this->resourcesFacade->get($resourceId);
-			$this->template->edit = true;
+			$this->template->resource = $this->resource->resourceId;
 		}
 	}
 

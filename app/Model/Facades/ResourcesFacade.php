@@ -22,6 +22,10 @@ final class ResourcesFacade {
 		return $this->resourceRepository->findAll();
 	}
 
+	public function findAllBy(?array $where = null, ?int $offset, ?int $limit): array {
+		return $this->resourceRepository->findAllBy($where, $offset, $limit);
+	}
+
 	public function save(Resource &$resource): bool {
 		return (bool) $this->resourceRepository->persist($resource);
 	}
@@ -36,5 +40,10 @@ final class ResourcesFacade {
 
 	public function delete(string $id): void {
 		$this->resourceRepository->delete($id);
+	}
+
+
+	public function getCount(?array $whereArr = null): int {
+		return $this->resourceRepository->findCountBy($whereArr);
 	}
 }

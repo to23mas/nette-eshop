@@ -18,33 +18,30 @@ use LeanMapper\Exception\InvalidStateException;
 use Nette\Security\SimpleIdentity;
 use Nette\Utils\Random;
 
-class UsersFacade {
-	private UserRepository $userRepository;
-	private PermissionRepository $permissionRepository;
-	private RoleRepository $roleRepository;
-	private ResourceRepository $resourceRepository;
-	private ForgottenPasswordRepository $forgottenPasswordRepository;
+final class UsersFacade {
 
-	public function __construct(UserRepository $userRepository, PermissionRepository $permissionRepository,
-		RoleRepository $roleRepository, ResourceRepository $resourceRepository,
-		ForgottenPasswordRepository $forgottenPasswordRepository){
-		$this->userRepository=$userRepository;
-		$this->permissionRepository=$permissionRepository;
-		$this->roleRepository=$roleRepository;
-		$this->resourceRepository=$resourceRepository;
-		$this->forgottenPasswordRepository=$forgottenPasswordRepository;
-	}
+	public function __construct(
+		private UserRepository $userRepository,
+		private PermissionRepository $permissionRepository,
+		private RoleRepository $roleRepository,
+		private ResourceRepository $resourceRepository,
+		private ForgottenPasswordRepository $forgottenPasswordRepository
+	){ }
 
 	public function deleteUser(int $userId): void
 	{
 		$this->userRepository->deleteUser($userId);
 	}
 
-	 /**
+	/**
 	 * @throws \Exception
 	 */
 	public function getUser(int $id):User {
 		return $this->userRepository->find($id);
+	}
+
+	public function findAllBy(?array $where = null, ?int $offset, ?int $limit): array {
+		return $this->userRepository->findAllBy($where, $offset, $limit);
 	}
 
 	public function findUsers(): array {
@@ -67,8 +64,8 @@ class UsersFacade {
 	}
 
 	/**
-   * @throws \LeanMapper\Exception\InvalidArgumentException
-   */
+	 * @throws \LeanMapper\Exception\InvalidArgumentException
+	 */
 	public function getFacebookUserIdentity(FacebookUser $facebookUser):SimpleIdentity {
 		try{
 			$user = $this->userRepository->findBy(['facebook_id'=>$facebookUser->facebookUserId]);
@@ -157,5 +154,9 @@ class UsersFacade {
    */
 	public function findPermissions():array {
 		return $this->permissionRepository->findAll();
+	}
+
+	public function getCount(?array $whereArr = null): int {
+		return $this->userRepository->findCountBy($whereArr);
 	}
 }
