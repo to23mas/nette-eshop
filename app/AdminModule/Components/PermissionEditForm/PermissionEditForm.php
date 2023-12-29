@@ -65,7 +65,7 @@ final class PermissionEditForm extends Control
 				->setDefaultValue($this->role->roleId);
 		}
 
-		$form->addSubmit('submit', 'Save');
+		$form->addSubmit('submit', 'Uložit');
 		$form->addSubmit('submitAndStay', 'Save and Stay');
 
 		$form->onSuccess[] = [$this, 'handleFormSubmitted'];

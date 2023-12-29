@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Model\Facades;
 
@@ -7,11 +7,8 @@ use App\Model\Repositories\ProductRepository;
 use Nette\Http\FileUpload;
 use Nette\Utils\Strings;
 
-/**
- * Class ProductsFacade
- * @package App\Model\Facades
- */
-class ProductsFacade{
+class ProductsFacade {
+
 	private ProductRepository $productRepository;
 
 	/**
