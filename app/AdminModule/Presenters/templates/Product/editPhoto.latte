@@ -1,0 +1,19 @@
+{block content}
+
+<div style="width: 75%; margin-left: auto; margin-right: auto;">
+	<div class="container">
+		<div class="row">
+			<h3 n:block="title">
+				Úprava fotky pro product: {$productName}
+			</h3>
+		</div>
+		<div class="row mb-3">
+			<div class="col-10"> </div>
+			<div class="col-2">
+				<a n:href="default" class="btn btn-warning float-end">Zpět</a>
+			</div>
+		</div>
+
+		{control productPhotoForm}
+	</div>
+</div>

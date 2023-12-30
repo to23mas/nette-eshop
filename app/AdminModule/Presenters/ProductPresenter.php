@@ -8,11 +8,13 @@ use App\AdminModule\Components\ProductEditForm\ProductEditForm;
 use App\AdminModule\Components\ProductEditForm\ProductEditFormFactory;
 use App\AdminModule\Components\ProductGrid\ProductGrid;
 use App\AdminModule\Components\ProductGrid\ProductsGridFactory;
+use App\AdminModule\Components\ProductPhotoForm\ProductPhotoForm;
+use App\AdminModule\Components\ProductPhotoForm\ProductPhotoFormFactory;
 use App\Model\Entities\Product;
 use App\Model\Facades\CategoriesFacade;
 use App\Model\Facades\ProductsFacade;
 
-class ProductPresenter extends BasePresenter
+final class ProductPresenter extends BasePresenter
 {
 
 	public ?Product $product = null;
@@ -24,6 +26,7 @@ class ProductPresenter extends BasePresenter
 		public ProductsFacade $productsFacade,
 		public ProductEditFormFactory $productEditFormFactory,
 		public ProductAddFormFactory $productAddFormFactory,
+		public ProductPhotoFormFactory $productPhotoFormFactory,
 		public CategoriesFacade $categoriesFacade,
 	) {}
 
@@ -32,7 +35,21 @@ class ProductPresenter extends BasePresenter
 		$this->searchParams = $searchParams;
 	}
 
-	public function actionAdd():void {}
+	public function actionAdd(): void
+	{}
+
+	public function actionEditPhoto(?int $productId): void
+	{
+		if ($productId !== null) {
+			try {
+				$this->product = $this->productsFacade->getProduct($productId);
+				$this->template->productName = $this->product->title;
+			} catch (\Throwable) {
+				$this->flashMessage('Požadovaný produkt nebyl nalezen.', 'error');
+				$this->redirect('default');
+			}
+		}
+	}
 
 	public function actionEdit(?int $productId):void
 	{
@@ -44,6 +61,11 @@ class ProductPresenter extends BasePresenter
 				$this->redirect('default');
 			}
 		}
+	}
+
+	protected function createComponentProductPhotoForm(): ProductPhotoForm
+	{
+		return $this->productPhotoFormFactory->create($this->product);
 	}
 
 	protected function createComponentProductAddForm(): ProductAddForm
