@@ -10,6 +10,7 @@ services:
 	- App\AdminModule\Components\ResourceEditForm\ResourceEditFormFactory
 	- App\AdminModule\Components\ResourceGrid\ResourceGridFactory
 	- App\AdminModule\Components\CategoryGrid\CategoryGridFactory
+	- App\AdminModule\Components\ProductPhotoForm\ProductPhotoFormFactory
 
 	- App\FrontModule\Components\UserLoginForm\UserLoginFormFactory
 	- App\FrontModule\Components\UserRegistrationForm\UserRegistrationFormFactory

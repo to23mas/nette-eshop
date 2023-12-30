@@ -7,5 +7,5 @@ use App\Model\Entities\Product;
 interface ProductEditFormFactory
 {
 
-  public function create(?Product $product = null): ProductEditForm;
+	public function create(?Product $product = null): ProductEditForm;
 }
