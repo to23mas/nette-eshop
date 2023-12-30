@@ -69,6 +69,7 @@ class ProductEditForm extends Control
 		$form->addSubmit('submit', 'Save');
 		$form->addSubmit('submitAndStay', 'Save and Stay');
 
+
 		$form->onSuccess[] = [$this, 'handleFormSubmitted'];
 		return $form;
 	}
