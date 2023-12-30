@@ -52,20 +52,11 @@ class ProductEditForm extends Control
 			->setMaxLength(100)
 			->addFilter(function(string $url){
 				return Strings::webalize($url);
-			})
-			->addRule(function(TextInput $input) use ($productId) {
-				try {
-					$existingProduct = $this->productsFacade->getProductByUrl($input->value);
-					return $existingProduct->productId==$productId->value;
-				} catch (\Throwable) {
-					return true;
-				}
-		},'Zvolená URL je již obsazena jiným produktem');
+			});
 
 		$form->addSelect('categories', null, $this->findCategories())
 			->setDefaultValue($this->product->category->categoryId)
 			->setPrompt('--vyberte kategorii--');
-
 
 		$form->setValues([
 			'title' => $this->product->title,
@@ -111,8 +102,8 @@ class ProductEditForm extends Control
 		$submitAndStay = $form['submitAndStay'];
 
 		$submitAndStay->isSubmittedBy()
-			? $this->presenter->redirect('Product:edit', ['productId' => $this->product->productId ?? $product->productId])
-			: $this->presenter->redirect('Product:default');
+		? $this->presenter->redirect('Product:edit', ['productId' => $this->product->productId ?? $product->productId])
+		: $this->presenter->redirect('Product:default');
 	}
 
 	private function findCategories(): array
@@ -125,5 +116,9 @@ class ProductEditForm extends Control
 		}
 
 		return $categoriesIds;
+	}
+
+	public function handleEditPhoto(?int $productId): void {
+		$this->presenter->redirect('Product:editPhoto', ['productId' => $productId]);
 	}
 }
