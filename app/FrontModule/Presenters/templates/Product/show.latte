@@ -2,6 +2,7 @@
 {block content}
 
 <h1 n:block="title">{$product->title}</h1>
+{var_dump($comm)}
 
 
 
@@ -30,19 +31,19 @@
                             <tbody>
                             <tr>
                                 <td width="390">Značka</td>
-                                <td></td>
+                                <td>{$product->brand}</td>
                             </tr>
                             <tr>
                                 <td>Barva bot</td>
-                                <td></td>
+                                <td>{$product->color}</td>
                             </tr>
                             <tr>
                                 <td>Střih</td>
-                                <td></td>
+                                <td>{$product->type}</td>
                             </tr>
                             <tr>
                                 <td>Model číslo</td>
-                                <td></td>
+                                <td>{$product->modelNumber}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -53,20 +54,7 @@
     </div>
 </div>
 
-{if $logged}
 
-    <form n:name=commentForm class="form-inline p-3 mb-5 bg-light" style="border: 1px solid #dee2e6 !important;">
-        <h5>Přidejte komentář:</h5>
-        <div class="form-group mb-2">
-            <label n:name=content><input n:name=content size=90></label>
-        </div>
-        <input n:name=send class="btn btn-primary mb-2">
-    </form>
-{else}
-
-    <h3 class="mb-5">Nový komentář mohou přidávat pouze přihlášení uživatelé</h3>
-
-{/if}
 
 <div class="w-65" style="margin:auto;">
     <hr>
@@ -80,4 +68,19 @@
     </div>
     {/foreach}
 </div>
+
+{if $logged}
+
+    <form n:name=commentForm class="form-inline p-3 mb-5 bg-light" style="border: 1px solid #dee2e6 !important;">
+        <h5>Přidejte komentář:</h5>
+        <div class="form-group mb-2">
+            <label n:name=content><input n:name=content size=90></label>
+        </div>
+        <input n:name=send class="btn btn-primary mb-2">
+    </form>
+{else}
+
+    <h4 class="mb-5">Nový komentář mohou přidávat pouze přihlášení uživatelé</h4>
+
+{/if}
 

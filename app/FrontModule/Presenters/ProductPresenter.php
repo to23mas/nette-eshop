@@ -55,6 +55,7 @@ class ProductPresenter extends BasePresenter{
       $this->template->product = $product;
       $this->productId= $product->productId;
       $this->template->logged = $this->user->loggedIn;
+
   }
 
   /**
@@ -148,10 +149,10 @@ class ProductPresenter extends BasePresenter{
 
 public function formCommentSucceded($form,$values){
     $comment = new Comments();
-    $comment->product = $this->productsFacade->getProduct('1');
+    $comment->product = $this->productsFacade->getProduct($this->productId);
     $comment->name = $this->user->identity->name;
     $comment->content = $values->content;
-    //$comment->created = date("Y.m.d H:i");
+    $comment->userId = $this->user->id;
     $this->commentsFacade->saveComment($comment);
     $this->flashMessage('Děkuji za komentář', 'success');
     $this->redirect('this');

@@ -16,6 +16,10 @@ use LeanMapper\Entity;
  * @property bool $available = true
  * @property Category|null $category m:hasOne
  * @property Comments[] $comments m:belongsToMany
+ * @property string $brand
+ * @property string $color
+ * @property string $type
+ * @property string $modelNumber
  */
 class Product extends Entity implements \Nette\Security\Resource{
 
