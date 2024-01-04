@@ -3,6 +3,81 @@
 
 <h1 n:block="title">{$product->title}</h1>
 
-<p>
-    {$product->description}
-</p>
+
+
+<div class="container">
+    <div class="card-main">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-6">
+                     <div class="white-box text-center"><img src="{$product->photoExtension}"></div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6">
+                    <h3>{$product->title}</h3>
+                    <h6 class="card-subtitle" style="padding: 10px 0px;"> {$product->category->title} bota </h6>
+                    <p> {$product->description}</p>
+                    <h2 class="mt-2">
+                        {$product->price},-</small>
+                    </h2>
+                    TODO:pocet kusu na sklade
+                        {control "productCartForm-$product->productId"}
+
+                    </h2>
+                    <hr>
+                    <h3 class="box-title mt-5">Podrobnosti o botě</h3>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-product">
+                            <tbody>
+                            <tr>
+                                <td width="390">Značka</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Barva bot</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Střih</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Model číslo</td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{if $logged}
+
+    <form n:name=commentForm class="form-inline p-3 mb-5 bg-light" style="border: 1px solid #dee2e6 !important;">
+        <h5>Přidejte komentář:</h5>
+        <div class="form-group mb-2">
+            <label n:name=content><input n:name=content size=90></label>
+        </div>
+        <input n:name=send class="btn btn-primary mb-2">
+    </form>
+{else}
+
+    <h3 class="mb-5">Nový komentář mohou přidávat pouze přihlášení uživatelé</h3>
+
+{/if}
+
+<div class="w-65" style="margin:auto;">
+    <hr>
+    <h5 style="padding: 20px 0px;" class="text-center">Naši zákazníci o botě napsali</h5>
+    {foreach $product->comments as $comment}
+    <div class="card">
+        <div class="card-body">
+            <span><b>{$comment->name}</b> dne {$comment->created|date:'%d.%m.%Y '} napsal:</span>
+            <p style="font-size: 1.5em;">{$comment->content}</p>
+        </div>
+    </div>
+    {/foreach}
+</div>
+

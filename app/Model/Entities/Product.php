@@ -15,6 +15,7 @@ use LeanMapper\Entity;
  * @property string $photoExtension = ''
  * @property bool $available = true
  * @property Category|null $category m:hasOne
+ * @property Comments[] $comments m:belongsToMany
  */
 class Product extends Entity implements \Nette\Security\Resource{
 

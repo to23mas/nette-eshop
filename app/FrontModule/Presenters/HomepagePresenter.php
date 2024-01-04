@@ -4,6 +4,7 @@ namespace App\FrontModule\Presenters;
 
 class HomepagePresenter extends BasePresenter{
 
-  //TODO
-
+  public function renderDefault(){
+      $this->redirect('Product:list');
+  }
 }
