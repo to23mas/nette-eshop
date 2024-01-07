@@ -2,6 +2,10 @@
 
 namespace App\Model\Repositories;
 
-class RoleRepository extends BaseRepository {
+/**
+ * Class RoleRepository
+ * @package App\Model\Repositories
+ */
+class RoleRepository extends BaseRepository{
 
 }

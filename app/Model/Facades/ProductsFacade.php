@@ -25,16 +25,12 @@ class ProductsFacade {
 		return $this->productRepository->findBy(['url'=>$url]);
 	}
 
-	public function delete(Product &$product): void
-	{
-		$this->productRepository->delete($product);
-	}
-
-	/**
-	 * @return Product[]
-	 */
 	public function findProducts(array $params=null,int $offset=null,int $limit=null):array {
 		return $this->productRepository->findAllBy($params,$offset,$limit);
+	}
+
+	public function getProductsByFilter(array $filter){
+		return $this->productRepository->getProductsByFilter($filter);
 	}
 
 	public function findProductsCount(array $params=null):int {

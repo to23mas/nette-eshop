@@ -3,9 +3,9 @@
 namespace App\Model\Repositories;
 
 /**
- * Class ResourceRepository
+ * Class CommentsRepository
  * @package App\Model\Repositories
  */
-class ResourceRepository extends BaseRepository{
+class CommentsRepository extends BaseRepository{
 
 }

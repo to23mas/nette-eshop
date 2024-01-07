@@ -1,13 +1,47 @@
 {varType App\Model\Entities\Product[] $products}
 {block content}
 
+<style>
+
+.container1{
+    display:flex;
+    flex-direction: row;
+    }
+
+
+</style>
+
+
 <h1 n:block="title">Nabízené produkty</h1>
+
+
+<div class="container1">
+
+<form n:name=filterForm>
+    <table>
+       		<tr n:foreach="$form->controls as $input"
+    			n:if="!$input->getOption(rendered) && $input->getOption(type) !== hidden"
+    			n:class="$input->required ? required">
+
+    			<th>{label $input /}</th>
+    			<td>{input $input} <span class=error n:ifcontent>{$input->error}</span></td>
+    		</tr>
+    	</table>
+
+</form>
 
 <section class="row" n:if="!empty($products)">
     {foreach $products as $product}
+        {if $selectedCategory ==null}
         <div class="col-md-6 col-lg-4 my-2 card">
             <a href="{plink Product:show url=>$product->url}" class="h4">{$product->title}</a>
             {control "productCartForm-$product->productId"}
         </div>
+        {/if}
     {/foreach}
+
+{foreach $selectedCategories as $category}
+
+{/foreach}
 </section>
+</div>
