@@ -40,6 +40,10 @@ class ProductEditForm extends Control
 			->setMaxLength(100);
 
 		$form->addText('description')->setNullable();
+		$form->addText('brand')->setRequired();
+		$form->addText('color')->setRequired();
+		$form->addText('type')->setRequired();
+		$form->addText('modelNumber')->setRequired();
 
 		$form->addText('price')
 			->setHtmlType('number')
@@ -58,12 +62,17 @@ class ProductEditForm extends Control
 			->setDefaultValue($this->product->category->categoryId)
 			->setPrompt('--vyberte kategorii--');
 
+		bdump($this->product->color);
 		$form->setValues([
 			'title' => $this->product->title,
 			'description' => $this->product->description,
 			'price' => $this->product->price,
 			'available' => $this->product->available,
 			'url' => $this->product->url,
+			'brand' => $this->product->brand,
+			'color' => $this->product->color,
+			'type' => $this->product->type,
+			'modelNumber' => $this->product->modelNumber,
 		]);
 
 		$form->addSubmit('submit', 'Uložit');
@@ -83,6 +92,11 @@ class ProductEditForm extends Control
 		$this->product->price = (float) $formData->price;
 		$this->product->available = $formData->available;
 		$this->product->category = $formData->categories === null ? null : $this->categoriesFacade->getCategory($formData->categories);
+		$this->product->brand = $formData->brand;
+		$this->product->color  = $formData->color;
+		$this->product->type = $formData->type;
+		$this->product->modelNumber = $formData->modelNumber;
+
 
 		try {
 			$this->productsFacade->saveProduct($this->product);

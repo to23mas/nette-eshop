@@ -35,13 +35,6 @@ final class UsersFacade {
 		return $this->userRepository->find($id);
 	}
 
-	/**
-	 * @throws \Exception
-	 */
-	public function getUser(int $id):User {
-		return $this->userRepository->find($id);
-	}
-
 	public function findAllBy(?array $where = null, ?int $offset, ?int $limit): array {
 		return $this->userRepository->findAllBy($where, $offset, $limit);
 	}
