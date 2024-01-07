@@ -28,9 +28,11 @@ final class UsersFacade {
 		private ForgottenPasswordRepository $forgottenPasswordRepository
 	){ }
 
-	public function deleteUser(int $userId): void
-	{
-		$this->userRepository->deleteUser($userId);
+	/**
+	 * @throws \Exception
+	 */
+	public function getUser(int $id):User {
+		return $this->userRepository->find($id);
 	}
 
 	/**
@@ -87,6 +89,11 @@ final class UsersFacade {
 		return $this->getUserIdentity($user);
 	}
 
+	/**
+   * Metoda vracející "přihlašovací identitu" pro daného uživatele
+   * @param User $user
+   * @return SimpleIdentity
+   */
 	public function getUserIdentity(User $user):SimpleIdentity {
 		//příprava pole pro seznam rolí
 		$roles=[];
@@ -100,7 +107,11 @@ final class UsersFacade {
 		return new SimpleIdentity($user->userId,$roles,['name'=>$user->name,'email'=>$user->email]);
 	}
 
+	#region metody pro zapomenuté heslo
 	/**
+   * Metoda pro vygenerování a uložení nového záznamu pro obnovu hesla
+   * @param User $user
+   * @return ForgottenPassword
    * @throws \LeanMapper\Exception\InvalidArgumentException
    */
 	public function saveNewForgottenPasswordCode(User $user):ForgottenPassword {
@@ -111,6 +122,12 @@ final class UsersFacade {
 		return $forgottenPassword;
 	}
 
+	/**
+   * Metoda pro ověření, zda je platný zadaný kód pro obnovu uživatelského účtu
+   * @param User|int $user
+   * @param string $code
+   * @return bool
+   */
 	public function isValidForgottenPasswordCode($user, string $code):bool {
 		if ($user instanceof User){
 			$user=$user->userId;
@@ -124,6 +141,10 @@ final class UsersFacade {
 		}
 	}
 
+	/**
+   * Metoda pro jednoduché smazání kódů pro obnovu hesla pro konkrétního uživatele
+   * @param User|int $user
+   */
 	public function deleteForgottenPasswordsByUser($user):void {
 		try{
 			if ($user instanceof User){
@@ -134,7 +155,9 @@ final class UsersFacade {
 			//ignore error
 		}
 	}
+	#endregion metody pro zapomenuté heslo
 
+	#region metody pro authorizator
 	/**
    * @return Resource[]
    */
@@ -150,8 +173,8 @@ final class UsersFacade {
 	}
 
 	/**
-   * @return Permission[]
-   */
+	 * @return Permission[]
+	 */
 	public function findPermissions():array {
 		return $this->permissionRepository->findAll();
 	}

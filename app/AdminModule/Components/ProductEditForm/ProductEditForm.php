@@ -66,8 +66,9 @@ class ProductEditForm extends Control
 			'url' => $this->product->url,
 		]);
 
-		$form->addSubmit('submit', 'Save');
-		$form->addSubmit('submitAndStay', 'Save and Stay');
+		$form->addSubmit('submit', 'Uložit');
+		$form->addSubmit('foto', 'Změň foto');
+		$form->addSubmit('submitAndStay', 'Uložit a zůstat');
 
 
 		$form->onSuccess[] = [$this, 'handleFormSubmitted'];
