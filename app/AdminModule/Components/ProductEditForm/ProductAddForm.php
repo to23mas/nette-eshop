@@ -37,7 +37,11 @@ class ProductAddForm extends Control
 			->setRequired('Musíte zadat název produktu')
 			->setMaxLength(100);
 
-		$form->addText('description');
+		$form->addText('description')->setRequired();
+		$form->addText('brand')->setRequired();
+		$form->addText('color')->setRequired();
+		$form->addText('type')->setRequired();
+		$form->addText('modelNumber')->setRequired();
 
 		$form->addText('price')
 			->setHtmlType('number')
@@ -93,13 +97,18 @@ class ProductAddForm extends Control
 		$product->url = $formData->url;
 		$product->price = (float) $formData->price;
 		$product->available = $formData->available;
+		$product->brand = $formData->brand;
+		$product->color = $formData->color;
+		$product->type = $formData->type;
+		$product->modelNumber = $formData->modelNumber;
 		$product->category = $formData->categories === null ?  null : $this->categoriesFacade->getCategory($formData->categories);
 		$product->photoExtension = $formData->photo->getImageFileExtension();
 
 		try {
 			$this->productsFacade->saveProduct($product);
 			$this->presenter->flashMessage('Produkt vytvořen', 'info');
-		} catch (\Throwable) {
+		} catch (\Throwable $e) {
+			bdump($e);
 			$this->presenter->flashMessage('Nepodařilo se vytvořit produkt', 'danger');
 			return;
 		}
