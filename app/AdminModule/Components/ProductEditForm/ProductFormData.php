@@ -13,7 +13,11 @@ final class ProductFormData {
 		public FileUpload $photo,
 		public bool $available,
 		public string $url,
-		public ?int $categories, //category ID
+		public string $brand,
+		public string $color,
+		public string $type,
+		public string $modelNumber,
+		public int $categories, //category ID
 	) {}
 }
 

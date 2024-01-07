@@ -9,11 +9,11 @@ final class Sidebar extends Control
 
 	/** @var array<string, array<string, mixed|>> */
 	private array $sidebar = [
-		'Dashboard' => [
-			'icon' => 'fa fa-dashboard',
-			'link' => 'Dashboard:',
-			'pesenter' => 'Dashboard:*',
-		],
+		// 'Dashboard' => [
+		// 	'icon' => 'fa fa-dashboard',
+		// 	'link' => 'Dashboard:',
+		// 	'pesenter' => 'Dashboard:*',
+		// ],
 		'Produkty' => [
 			'icon' => 'fa fa-shopping-cart',
 			'link' => 'Product:',
