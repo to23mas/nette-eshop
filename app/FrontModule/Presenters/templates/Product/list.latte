@@ -1,4 +1,5 @@
 {varType App\Model\Entities\Product[] $products}
+{varType Nette\Utils\Paginator $paginator}
 {block content}
 
 <style>
@@ -30,18 +31,44 @@
 
 </form>
 
-<section class="row" n:if="!empty($products)">
-    {foreach $products as $product}
-        {if $selectedCategory ==null}
-        <div class="col-md-6 col-lg-4 my-2 card">
-            <a href="{plink Product:show url=>$product->url}" class="h4">{$product->title}</a>
-            {control "productCartForm-$product->productId"}
+
+        <div class="container">
+            <div class="row">
+            {foreach $products as $product}
+                {if $product->available == 1}
+                <a href="{plink Product:show url=>$product->url, page=>1}" class="h4">
+                <div class="m-3">
+                    <div class="card text-center" style="width: 15.1rem; height: 30rem;">
+                        <img src="{$basePath}/img/products/{$product->productId}.{$product->photoExtension}" class="card-img-top" style="height: 220px;"">
+                        <div class="card-body">
+                            <h4>{$product->title}</h4>
+                            <p class="item-price">{$product->price}Kč</p>
+
+                            </div>
+                            </a>
+                            {control "productCartForm-$product->productId"}
+                    </div>
+                </div>
+
+                {/if}
+            {/foreach}
+            </div>
         </div>
-        {/if}
-    {/foreach}
 
 {foreach $selectedCategories as $category}
 
 {/foreach}
 </section>
 </div>
+
+{if $paginator->pageCount>1}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-2">
+                {for $i=1;$i<=$paginator->pageCount;$i++}
+                    <li class="page-item {if $paginator->page == $i}active{/if}">
+                        <a class="page-link" href="{plink this page=>$i}">{$i}</a>
+                    </li>
+                {/for}
+                </ul>
+            </nav>
+{/if}

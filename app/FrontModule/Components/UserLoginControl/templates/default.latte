@@ -1,6 +1,10 @@
 {snippet}
   <div {if !empty($class)}class="{$class}"{/if}>
     {if $user->isLoggedIn()}
+
+    {if $user->roles[1] == "admin"}
+    <div><a href="{plink :Admin:Dashboard:default}">administrace</a></div>
+    {/if}
       <strong>{$user->identity->name}</strong>
       -
       <a href="{link logout!}">odhlásit se</a>
@@ -9,3 +13,5 @@
     {/if}
   </div>
 {/snippet}
+
+

@@ -1,9 +1,45 @@
 {varType App\Model\Entities\Product $product}
+
+
 {block content}
-
+<style>
+    h3, h2, h6{
+        text-align: center;
+    }
+    img{
+        width: 400px;
+    }
+    .card {
+        margin-bottom: 30px;
+    }
+    .card-main {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid transparent;
+        border-radius: 0;
+    }
+    .card .card-subtitle {
+        font-weight: 300;
+        margin-bottom: 10px;
+        color: #8898aa;
+    }
+    .table-product.table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f3f8fa!important
+    }
+    .table-product td{
+        border-top: 0px solid #dee2e6 !important;
+        color: #728299!important;
+    }
+    .koment{
+        text-align: left;
+    }
+</style>
 <h1 n:block="title">{$product->title}</h1>
-{var_dump($comm)}
-
 
 
 <div class="container">
@@ -11,7 +47,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-6">
-                     <div class="white-box text-center"><img src="{$product->photoExtension}"></div>
+                     <div class="white-box text-center"><img src="{$basePath}/www/img/products/{$product->productId}.{$product->photoExtension}"></div>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-6">
                     <h3>{$product->title}</h3>
@@ -83,4 +119,6 @@
     <h4 class="mb-5">Nový komentář mohou přidávat pouze přihlášení uživatelé</h4>
 
 {/if}
+
+
 

@@ -89,7 +89,7 @@ final class	ProductGrid extends Control
 
 	public function handleDelete(int $productId): void {
 		try {
-			$this->productsFacade->delete($this->productsFacade->getProduct($categoryId));
+			$this->productsFacade->delete($this->productsFacade->getProduct($productId));
 			$this->presenter->flashMessage('Product úspěšně smazána', 'info');
 		} catch (\Throwable) {
 			$this->presenter->flashMessage('Nepodařilo se smazat product', 'danger');

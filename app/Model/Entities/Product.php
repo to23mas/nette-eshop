@@ -16,6 +16,7 @@ use LeanMapper\Entity;
  * @property bool $available = true
  * @property Category|null $category m:hasOne
  * @property Comments[] $comments m:belongsToMany
+ * @property Size[] $size m:belongsToMany
  * @property string $brand
  * @property string $color
  * @property string $type

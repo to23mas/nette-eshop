@@ -7,6 +7,7 @@ services:
 	- App\Model\Facades\PermissionsFacade
 	- App\Model\Facades\ResourcesFacade
 	- App\Model\Facades\CommentsFacade
+	- App\Model\Facades\SizeFacade
 
 	- App\Model\Repositories\CategoryRepository
 	- App\Model\Repositories\ForgottenPasswordRepository
@@ -18,5 +19,7 @@ services:
 	- App\Model\Repositories\CartRepository
 	- App\Model\Repositories\CartItemRepository
 	- App\Model\Repositories\CommentsRepository
+	- App\Model\Repositories\SizeRepository
+
 
 

@@ -54,13 +54,12 @@ class PermissionsPresenter extends BasePresenter {
 		if ($permissionId !== null) {
 			$this->permission = $this->permissionsFacade->get((int) $permissionId);
 			$this->template->roleId = $this->permission->roleId;
-			$this->template->edit = true;
+			$this->template->permission = $this->permission->permissionId;
 		}
 
 		if ($roleId !== null) {
 			$this->role = $this->roleFacade->get($roleId);
 			$this->template->roleId = $roleId;
-			$this->template->edit = false;
 		}
 	}
 

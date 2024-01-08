@@ -11,6 +11,7 @@ use App\Model\Facades\CommentsFacade;
 use App\Model\Facades\ProductsFacade;
 use App\Model\Facades\LikedByFacade;
 use App\Model\Facades\CategoriesFacade;
+use App\Model\Facades\SizeFacade;
 use App\Model\Facades\UsersFacade;
 use mysql_xdevapi\Exception;
 use Nette;
@@ -31,14 +32,18 @@ class ProductPresenter extends BasePresenter{
 
   private CommentsFacade $commentsFacade;
 
+  private SizeFacade $sizeFacade;
 
 
 
-  public $category_filter;
+
+  public $filterArray;
     /** @persistent */
 
     public $productId;
     /** @persistent */
+    /** @persistent */
+    public $page = 1;
 
   /**
    * Akce pro zobrazení jednoho produktu
@@ -55,6 +60,7 @@ class ProductPresenter extends BasePresenter{
       $this->template->product = $product;
       $this->productId= $product->productId;
       $this->template->logged = $this->user->loggedIn;
+      var_dump($product->size);
 
   }
 
@@ -63,26 +69,38 @@ class ProductPresenter extends BasePresenter{
    */
   public function renderList(?form $form):void {
     //TODO tady by mělo přibýt filtrování podle kategorie, stránkování atp.
-      if ($this->category_filter == null) {
+
+      var_dump($this->filterArray);
+      if ($this->filterArray == null){
+          $this->template->products = $this->productsFacade->findProducts(['order' => 'title']);
+      }elseif (count($this->filterArray) == 0) {
           $this->template->products = $this->productsFacade->findProducts(['order' => 'title']);
       }
       else{
 
-          $categories = $this->categoriesFacade->findCategories();
-          $filterArray = array();
-          $true_flag = false;
-          foreach ($categories as $category){
-              if ($this->category_filter[$category->categoryId]){
-                array_push($filterArray,$category->categoryId);
-                $true_flag = true;
-              }
-          }
-          if ($true_flag) {
-              $this->template->products = $this->productsFacade->getProductsByFilter($filterArray);
-          }else{
-              $this->template->products = $this->productsFacade->findProducts(['order' => 'title']);
-          }
+          $this->template->products = $this->productsFacade->getProductsByFilter($this->filterArray);
+
       }
+
+      //Paginator
+      $paginator = new Paginator();
+      if($this->filterArray ==null) {
+      }elseif (count($this->filterArray) == 0){
+
+            $paginator->setItemCount($this->productsFacade->findProductsCount());}
+      else {
+          $paginator->setItemCount(count($this->productsFacade->getProductsByFilter($this->filterArray)));
+      }
+      $paginator->setItemsPerPage(4);
+
+      $currentPage = min($this->page,$paginator->pageCount);
+      $currentPage = max($currentPage,1);
+      if($currentPage !=$this->page){
+          $this->redirect('list',['page'=>$currentPage]);
+
+      }
+      $paginator->setPage($this->page);
+      $this->template->paginator = $paginator;
 
 
   }
@@ -121,7 +139,16 @@ class ProductPresenter extends BasePresenter{
     public function formFilterSucceeded($form, $values): void
     {
 
-        $this->category_filter = $form->getValues();
+        $category_filter = $form->getValues();
+        $categories = $this->categoriesFacade->findCategories();
+
+        $this->filterArray = [];
+        foreach ($categories as $category){
+            if ($category_filter[$category->categoryId]){
+                array_push($this->filterArray,$category->categoryId);
+
+            }
+        }
 
     }
 
@@ -197,6 +224,10 @@ public function formCommentSucceded($form,$values){
   }
   public function injectCommentsFacade(CommentsFacade $commentsFacade):void{
         $this->commentsFacade = $commentsFacade;
+    }
+
+  public function injectSizeFacade(SizeFacade $sizeFacade):void{
+        $this->sizeFacade = $sizeFacade;
     }
 
 

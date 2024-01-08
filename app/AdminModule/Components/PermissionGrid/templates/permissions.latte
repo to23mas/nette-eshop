@@ -58,6 +58,25 @@
 		{/foreach}
 	</tbody>
 </table>
+
+<div class="pagination">
+	{if !$paginator->isFirst()}
+		<a n:href="changeWithRole, 1, $selectedRole">První</a>
+		&nbsp;|&nbsp;
+		<a n:href="changeWithRole, $paginator->page-1, $selectedRole">Předchozí</a>
+		&nbsp;|&nbsp;
+	{/if}
+
+	Stránka {$paginator->getPage()} z {$paginator->getPageCount()}
+
+	{if !$paginator->isLast()}
+		&nbsp;|&nbsp;
+		<a n:href="changeWithRole, $paginator->getPage() + 1, $selectedRole">Další</a>
+		&nbsp;|&nbsp;
+		<a n:href="changeWithRole, $paginator->getPageCount(), $selectedRole">Poslední</a>
+	{/if}
+</div>
+
 {else}
 <p class="text-muted">Nebyly nalezeny žádné permissions</p>
 {/if}
